@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "mybatis-3-mapper.dtd" >
+<mapper namespace='com.dao.BackstageDao'>
+	<resultMap type="management" id="managementMap">
+		<result column="mid" property="mid"/>
+		<result column="id" property="id"/>
+		<result column="parid" property="parid"/>
+		<result column="time" property="time"/>
+		<result column="statu" property="statu"/>
+		<collection property="managements" column="mid" select="com.dao.BackstageDao.findManage2" />
+
+	</resultMap>
+	
+	<select id="findManage" parameterType="integer" resultMap="managementMap">
+		select * from management where id=#{value}
+	</select>
+	
+</mapper>
