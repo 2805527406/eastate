@@ -15,4 +15,8 @@
 		select * from management where id=#{value}
 	</select>
 	
+	<update id="updateManage" parameterType="management">
+		update management set mname=#{mname},statu=#{statu} where mid=#{mid}
+	</update>
+	
 </mapper>

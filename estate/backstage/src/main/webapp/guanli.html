@@ -50,27 +50,44 @@
 			//生成大列表
 			$.get("grou.sw",function(data){
 							$.each(data,function(i,v){
-								var s=$("#quyuguanli").html();
-								$("<li></li>").html("<a href='guanli"+(i+1)+".html'><i class='icon-double-angle-right'></i>"+v.gname+"</a>").appendTo("#quyuguanli");
+								
+								$("<li></li>").html("<a href='guanli.html?id="+(i+1)+"'><i class='icon-double-angle-right'></i>"+v.gname+"</a>").appendTo("#quyuguanli");
+							})
+						})
+			$.get("grou2.sw",function(data){
+							console.log("回掉成功");
+							$.each(data,function(i,v){
+								
+								$("<li></li>").html("<a href='home.html?id="+(i+1)+"'><i class='icon-double-angle-right'></i>"+v.hname+"</a>").appendTo("#fangyuanguanli");
 							})
 						})
 		}
+
+		function GetQueryString(name)
+		{
+		     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+		     var r = window.location.search.substr(1).match(reg);
+		     if(r!=null)return  unescape(r[2]); return null;
+		}
 		//显示子类
 		function list2(){
-			$.get("region.sw",{id:1},function(data){
+			var id=GetQueryString("id")
+			$.get("region.sw",{id:id},function(data){
 				$.each(data,function(i,v){
-					var td=$("<td></td>").append($("<input type='text' name='retname'>").val(v.mname));
-					var td2=$("<td></td>").append($("<input type='checkbox' name='statu'>").attr("checked",v.statu==="y"?"checked":"block"));
+					var td=$("<td></td>").append($("<input type='text' name='retname'>").attr("id","a"+v.mid).val(v.mname));
+					var box2=$("<input type='checkbox' name='statu'>").attr("id","b"+v.mid);
+					box2.get(0).checked=(v.statu==="y");
+					var td2=$("<td></td>").append(box2);
 					var td3=$("<td></td>").append(v.time);
 				
-					$("<tr onclick='tan("+this+")'></tr>").append(td).
+					$("<tr class='active info' onclick='dis("+(2*(i+1)+1)+")'></tr>").append(td).
 					append(td2).
 					append($("<td></td>").html(v.time)).
-					append($("<td></td>").html("<a href='#'>添加商圈</a>&nbsp;<a href='javascript:kg("+v.mid+")'>快改</a>&nbsp;<a href='javascript:del("+v.mid+")'>删除</a>")).
+					append($("<td></td>").html("<a href='javascript:void(0)' onclick=xx("+v.mid+");return true;' data-target='#mymodal' data-toggle='modal'>添加商圈</a>&nbsp;&nbsp;<a href='javascript:kg("+v.mid+")'>快改</a>&nbsp;&nbsp;<a href='javascript:del("+v.mid+")'>删除</a>")).
 					appendTo("#guanlimingcheng");
-			
-					if(typeof v.managements[i] != "undefined"){
-						var tr=$("<tr class='active success'></tr>");   var td3=$("<td></td>");
+					/* 下面是生成子类的子类 */
+					/* if(typeof v.managements[i] != "undefined"){ */
+						var tr=$("<tr class='active success'  id='dis"+(2*(i+1))+"'></tr>");   var td3=$("<td></td>");
 						var td2=$("<td colspan='3'></td>");//
 						
 						var str1=$("<table class='table-striped table-hover table-condensed' width='100%'></table>");
@@ -78,37 +95,78 @@
 						var tbody=$("<tbody></tbody>")
 						$.each(v.managements,function(i,v){
 							var tr_2=$("<tr></tr>");
-							var td_1=$("<td></td>").append($("<input type='text' name='regname'>").val(v.mname));
-							var box=$("<input type='checkbox' name='statu'>");
+							var td_1=$("<td></td>").append($("<input type='text' name='regname'>").attr("id","a"+v.mid).val(v.mname));
+							var box=$("<input type='checkbox' name='statu'>").attr("id","b"+v.mid);
 							box.get(0).checked=(v.statu==='y');
 							var td_2=$("<td></td>").append(box);
 							var td_3=$("<td></td>").append(v.time);
-							tr_2.append(td_1).append(td_2).append(td_3).append($("<td></td>").html("<a href='javascript:kg("+v.mid+")'>快改</a>&nbsp;<a href='#'>删除</a>")).appendTo(tbody);
+							tr_2.append(td_1).append(td_2).append(td_3).append($("<td></td>").html("<a href='javascript:kg("+v.mid+")'>快改</a>&nbsp;&nbsp;<a href='javascript:del("+v.mid+")'>删除</a>")).appendTo(tbody);
 							str1.append(str2).append(tbody).appendTo(td2);
 						})
 						
 						tr.append(td3).append(td3).append(td3).append(td2).appendTo("#guanlimingcheng");
-					}
+					/*  } */
 					
 				})
 			})
 		}
+					function dis(i){
+						
+						$("#dis"+i-1).toggle();
+					}
 					$(function(){
 						list();
 						list2();
+					
 					})	
 					
-					function kg(mid){
-						 var tr=$(this).parent();
-						 alert(tr+","+mid); ed                                                                 ddde     hhhh2hqx
+					function kg(mid){//大分类 快改
+						  var a=$("#a"+mid).val();
+						  var b=$("#b"+mid).get(0).checked?"y":"n";
+						 $.post("qugai.sw",{mname:a,statu:b,mid:mid},function(data){
+							 if(data=="ok"){
+								 alert("修改成功");
+								 $("#guanlimingcheng").empty();
+								 list2();
+							 }
+						 })
 					}
+					//删除
 					function del(mid){
-						
+						 $.get("qudel.sw",{mid:mid},function(data){
+							 if(data=="ok"){
+								 alert("删除成功");
+								 $("#guanlimingcheng").empty();
+								 list2();
+							 }
+						 })
+					}
+					//弹出添加区域的框并修改
+					function xx(i){
+						if(i===0){
+							$(".modal-header").text("添加区域");
+							$("#quid").val(i);
+							$("#quname").val("");
+						}else{
+							$(".modal-header").text("添加商圈");
+							$("#quid").val(i);
+							$("#quname").val("");
+						}
+					}
+					//添加商圈或区域
+					function tianjia(){
+						var id=$("#quid").val();
+						var name=$("#quname").val();
+						$.post("tianjia.sw",{mid:id,mname:name},function(data){
+							if(data!="no"){
+								alert("添加成功");
+								 $("#guanlimingcheng").empty();
+								 list2();
+							}else{alert("添加失败");}
+						})
 					}
 					
-					function tan(){
-						alert(this);
-					}
+
 		</script>
 		<div class="navbar navbar-default" id="navbar">
 			<script type="text/javascript">
@@ -456,25 +514,13 @@
 						<li>
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-list"></i>
-								<span class="menu-text"> 表格 </span>
+								<span class="menu-text">房源管理</span>
 
 								<b class="arrow icon-angle-down"></b>
 							</a>
 
-							<ul class="submenu">
-								<li>
-									<a href="tables.html">
-										<i class="icon-double-angle-right"></i>
-										简单 &amp; 动态
-									</a>
-								</li>
-
-								<li>
-									<a href="jqgrid.html">
-										<i class="icon-double-angle-right"></i>
-										jqGrid plugin
-									</a>
-								</li>
+							<ul class="submenu" id="fangyuanguanli">
+								
 							</ul>
 						</li>
 
@@ -683,7 +729,7 @@
 
 					<div class="page-content">
 						<div class="page-header">
-							<button class="btn btn-success" type="button">添加</button>
+							<button class="btn btn-success" onclick="xx(0)" data-target="#mymodal" data-toggle="modal" type="button">添加</button>
 						</div><!-- /.page-header -->
 
 						<div class="row">
@@ -691,6 +737,25 @@
 								<thead><tr><td width="20%">区域名称</td><td>启用</td><td>排序</td><td>操作</td></tr></thead>
 								<tbody id="guanlimingcheng"></tbody>
 							</table>
+							<div class="modal fade bs-example-model-lg " id="mymodal" >
+								<div class="modal-dialog ">
+									
+									<div class="modal-content">
+									<div class="modal-header">添加商圈</div>
+									<div class="modal-body">
+										<div class="input-group">
+											<input type="hidden" id="quid">
+											 <span class="input-group-addon">添加名称</span>
+           									 <input type="text" id="quname" placeholder="请输入" class="form-control">
+										</div>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal" onclick="tianjia()">确定</button>
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									</div>
+									</div>
+								</div>
+							</div>
 						</div><!-- /.row -->
 					</div><!-- /.page-content -->
 				</div><!-- /.main-content -->

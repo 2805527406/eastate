@@ -381,9 +381,7 @@
 								<b class="arrow icon-angle-down"></b>
 							</a>
 
-							<ul class="submenu" id="quyuguanli">
-								
-								
+							<ul class="submenu" id="quyuguanli">		
 							</ul>
 						</li>
 						
@@ -391,25 +389,13 @@
 						<li>
 							<a href="#" class="dropdown-toggle">
 								<i class="icon-list"></i>
-								<span class="menu-text"> 表格 </span>
+								<span class="menu-text">房源管理 </span>
 
 								<b class="arrow icon-angle-down"></b>
 							</a>
 
-							<ul class="submenu">
-								<li>
-									<a href="tables.html">
-										<i class="icon-double-angle-right"></i>
-										简单 &amp; 动态
-									</a>
-								</li>
-
-								<li>
-									<a href="jqgrid.html">
-										<i class="icon-double-angle-right"></i>
-										jqGrid plugin
-									</a>
-								</li>
+							<ul class="submenu" id="fangyuanguanli">
+								
 							</ul>
 						</li>
 
@@ -2069,8 +2055,13 @@
 						$.get("grou.sw",function(data){
 							console.log("回掉成功");
 							$.each(data,function(i,v){
-								var s=$("#quyuguanli").html();
-								$("<li></li>").html("<a href='guanli"+(i+1)+".html'><i class='icon-double-angle-right'></i>"+v.gname+"</a>").appendTo("#quyuguanli");
+								$("<li></li>").html("<a href='guanli.html?id="+(i+1)+"'><i class='icon-double-angle-right'></i>"+v.gname+"</a>").appendTo("#quyuguanli");
+							})
+						})
+						$.get("grou2.sw",function(data){
+							console.log("回掉成功");
+							$.each(data,function(i,v){
+								$("<li></li>").html("<a href='home.html?id="+(i+1)+"'><i class='icon-double-angle-right'></i>"+v.hname+"</a>").appendTo("#fangyuanguanli");
 							})
 						})
 					})	
