@@ -5,10 +5,14 @@ import java.util.List;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.SelectKey;
+import org.apache.ibatis.annotations.Update;
 import org.pojo.Buliding;
 import org.pojo.Grou;
 import org.pojo.Home;
+import org.pojo.Homeimg;
 import org.pojo.Management;
+import org.pojo.Rate;
 
 public interface BackstageDao {
 	//查询区域管理
@@ -38,5 +42,72 @@ public interface BackstageDao {
 	public List<Home> findHome();
 	@Select("select * from buliding where hid=#{value}")
 	public List<Buliding> findBulid(Integer id);
+	//修改楼盘
+	public void updateBulid(Buliding b);
+	@Delete("delete from buliding where bulid=#{value}")
+	public void deleteBulid(Integer b);
 	
+	
+	
+	
+	/************按揭利率**********************************///************///
+	//查询按揭利率
+		@Select("select * from rate")
+		public List<Rate> findRate();
+		
+		//添加按揭利率
+		public  void save(Rate rate);
+		
+		//单独查询按揭利率
+		public Rate loadrate(Integer id);
+		
+		//修改按揭利率
+		public void updaterate(Rate rate) ;
+		
+		//删除按揭利率
+		public void del(Integer id);
+
+		/***************************************************************************************/
+	    //新盘列表添加
+		@Insert("insert into buliding (buliname,reid,regnid,sid,manid,moid,fid,jprice,starttime,endtime,statu,addres,phone,viewimg,district,developers,licence,jzarea,zdarea,volume,green,company,cost,garage,message,information,maid,hid) values(#{buliname},#{reid},#{regnid},#{sid},#{manid},#{moid},#{fid},#{jprice},#{starttime},#{endtime},'y',#{addres},#{phone},#{viewimg},#{district},#{developers},#{licence},#{jzarea},#{zdarea},#{volume},#{green},#{company},#{cost},#{garage},#{message},#{information},null,1)")
+		@SelectKey(before=false,statement="select last_insert_id()",keyProperty="bulid",resultType=Integer.class)
+	    public void addbuil(Buliding b);
+		
+		//状态下拉列表查询
+		@Select("select * from management where id=3")
+		public List<Management> findzt();
+		
+		//区域下拉列表查询
+		@Select("select * from management where id=1")
+		public List<Management> findqy();
+		//商圈下拉列表查询
+		@Select("select * from management where parid=#{mid}")
+		public List<Management> findsq(Integer mid);
+		
+		//楼型下拉列表查询
+		@Select("select * from management where id=4")
+		public List<Management> findlx();
+		
+		//类型下拉列表查询
+		@Select("select * from management where id=5")
+		public List<Management> findleix();
+		//类型下拉列表查询
+		@Select("select * from management where id=6")
+		public List<Management> findzhx();
+		//查询楼层的全部图片
+		@Select("select * from homeimg where bulid=#{value}")
+		public List<Homeimg> findimg(Integer bulid);
+		//修改前的加载新盘列表 查询楼盘
+		public Buliding loadbiu(Integer id);
+		//新盘楼房修改
+		public void updatebiu(Buliding biu);
+		//修改图片
+		@Update("update homeimg set hsrc=#{hsrc},mid=#{mid},bulid=#{bulid} where maid=#{maid}")
+		public void updateimg(Homeimg h);
+		//删除图片
+		@Delete("delete from homeimg where bulid=#{value}")
+		public void delImg(Integer main);
+//*****************************************************************
+		@Insert("insert into homeimg(hsrc,mid,bulid) values(#{hsrc},#{mid},#{bulid})")
+		public void addImg(Homeimg img);
 }

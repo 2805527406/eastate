@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans xmlns="http://www.springframework.org/schema/beans" 
-xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-xmlns:context="http://www.springframework.org/schema/context" 
-xmlns:mvc="http://www.springframework.org/schema/mvc" 
-xmlns:tx="http://www.springframework.org/schema/tx" 
-xmlns:jpa="http://www.springframework.org/schema/data/jpa" 
-xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd ">
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:amq="http://activemq.apache.org/schema/core" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/data/jpa http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd ">
 	<!-- 配置数据库连接信息 -->
 	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
@@ -31,6 +25,47 @@ xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.sprin
 		<constructor-arg name="host" value="192.168.0.204"></constructor-arg>
 		<constructor-arg name="port" value="6379"></constructor-arg>
 	</bean> -->
+	
+	
+	<!-- *****配置上传****** -->
+	<bean id="multipartResolver" 
+class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+<!-- 上传文件大小上限，单位为字节（10MB） -->
+<property name="maxUploadSize"> 
+<value>10485760</value> 
+</property> 
+<!-- 请求的编码格式，必须和jSP的pageEncoding属性一致，以便正确读取表单的内容，默认为ISO-8859-1 -->
+<property name="defaultEncoding">
+<value>UTF-8</value>
+</property>
+</bean>
 	<context:annotation-config></context:annotation-config>
-	<context:component-scan base-package="com.dao,com.service"></context:component-scan>
+	<context:component-scan base-package="com.dao,com.service,com.util"></context:component-scan>
+	<!-- *********************************activemq配置(生产者)********************************* -->
+<!-- 	<amq:connectionFactory id="amqConnectionFactory" brokerURL="tcp://10.0.13.78:61616" userName="admin" password="admin" trustAllPackages="true"></amq:connectionFactory> -->
+<!-- 	<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory"> -->
+<!-- 		<constructor-arg ref="amqConnectionFactory"></constructor-arg> -->
+<!-- 		<property name="sessionCacheSize" value="100"></property> -->
+<!-- 	</bean>设置连接地址 -->
+	<!-- 目的地 --> 
+<!-- 	<bean id="dest" class="org.apache.activemq.command.ActiveMQTopic"> -->
+<!-- 		<constructor-arg value="backstage"></constructor-arg> -->
+<!-- 	</bean>设置连接目的地 -->
+
+	
+<!-- 	<bean id="jms" class="org.springframework.jms.core.JmsTemplate"> -->
+<!-- 		<constructor-arg ref="connectionFactory"></constructor-arg> -->
+<!-- 		<property name="defaultDestination" ref="dest"></property> -->
+ 		<!-- 设置一个最长的等待时间参数 --> 
+<!-- 		<property name="receiveTimeout" value="10000"></property> -->
+<!-- 		<property name="pubSubDomain" value="true"></property> -->
+<!-- 	</bean> -->
+
+	
+<!-- ********************dubbo通信配置*************** -->
+	<dubbo:application name="backstage"></dubbo:application>
+	<!-- registry:注册    应用:application protocol：协议，规则 -->
+	<dubbo:registry address="zookeeper://10.0.14.187:2181"></dubbo:registry>
+	<dubbo:protocol name="dubbo" port="30001"></dubbo:protocol>
+	<dubbo:service interface="org.api.ServiceAPI" ref="backstageservice" timeout="1200000"></dubbo:service>
 </beans>

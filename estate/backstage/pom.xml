@@ -69,8 +69,45 @@
     	<groupId>org.springframework</groupId>
     	<artifactId>spring-jdbc</artifactId>
     </dependency>
+    <dependency>
+    	<groupId>commons-fileupload</groupId>
+    	<artifactId>commons-fileupload</artifactId>
+    </dependency>
+    <dependency>
+    <groupId>com.googlecode.json-simple</groupId>
+    <artifactId>json-simple</artifactId>
+</dependency>
+    <dependency>
+    	<groupId>commons-logging</groupId>
+    	<artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>zx</groupId>
+    	<artifactId>api</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-jms</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-spring</artifactId>
+    </dependency>
+     <dependency>
+        <groupId>io.goeasy</groupId>
+        <artifactId>goeasy-sdk</artifactId>
+        <version>0.3.8</version>
+    </dependency>
   </dependencies>
+  <repositories>
+  	<repository>
+  		  <id>goeasy</id>
+        <name>goeasy</name>
+        <url>http://maven.goeasy.io/content/repositories/releases/</url>
+  	</repository>
+  </repositories>
   <build>
     <finalName>backstage</finalName>
   </build>
+ 
 </project>

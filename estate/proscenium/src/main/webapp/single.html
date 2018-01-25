@@ -139,11 +139,17 @@ function scrollImg(){
 				<div class="blog-grids">
 					<a href="#"><img width=825 height=500 src="{{buliding.viewimg}}" alt=""></a>
 					<div class="blog-detail">
-						<h3><span class="blog-clr">楼盘信息</span></h3>
-<!-- 						<h4> in <span class="blog-clr">General</span> by Pexeto <span class="blog-clr"> march </span> 3,2015 <span class="blog-clr"> 4 </span><a href="#">Comments</a></h4> -->
-<!-- 						<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p> -->
- 						<div class="blog-para">
+						<h3><span class="blog-clr">楼盘详情</span></h3>
+					<h4><span style="color:red;">楼型: &nbsp;&nbsp;&nbsp;</span>{{buliding.manid}}</h4>
+					<h4><span style="color:red;">装修度:&nbsp;&nbsp;&nbsp;</span>{{buliding.fid}}</h4>
+					<h4><span style="color:red;">所属区域:&nbsp;&nbsp;&nbsp; </span>{{buliding.reid}}</h4>
+					<h4><span style="color:red;">所属商圈: &nbsp;&nbsp;&nbsp;</span>{{buliding.regnid}}</h4>
+					<h4><span style="color:red;">状态: &nbsp;&nbsp;&nbsp;</span>{{buliding.moid}}</h4>
+					<h4><span style="color:red;">学区所属:&nbsp;&nbsp;&nbsp;</span>{{buliding.district}}</h4>
+						<div class="blog-para">
+						<h3><span class="blog-clr">周边配套</span></h3>
 							{{buliding.information}}<br>
+							<h3><span class="blog-clr">其他信息</span></h3>
 							{{buliding.message}}
 						</div>
 						<h3><span class="blog-clr">位置信息</span></h3>
@@ -222,8 +228,8 @@ function scrollImg(){
 			
 			<div class="col-md-3 blog-right"  >
 				<div class="blog-cate" ><!-- 显示楼盘详细信息 -->
-				<h3>Categories</h3>
-				<ul >
+				<h3>楼盘信息</h3>
+				<ul>
 					<li><span style="color:red;">楼盘名称:&nbsp;&nbsp;&nbsp;</span>{{buliding.buliname}}</li>
 					<li><span style="color:red;">楼型: &nbsp;&nbsp;&nbsp;</span>{{buliding.manid}}</li>
 					<li><span style="color:red;">楼盘地址:&nbsp;&nbsp;&nbsp;</span>{{buliding.addres}}</li>
@@ -231,18 +237,7 @@ function scrollImg(){
 					<li><span style="color:red;">优惠信息: &nbsp;&nbsp;&nbsp;</span>{{buliding.message}}</li>
 					<li><span style="color:red;">开发商: &nbsp;&nbsp;&nbsp;</span>{{buliding.developers}}</li>
 					<li><span style="color:red;">联系电话:&nbsp;&nbsp;&nbsp;</span>{{buliding.phone}}</li>
-					<li><a href="javascript:void(0)" style="color:blue;" data-reveal-id="myModal">弹出来</a></li>
 				</ul>
-				
-			</div>
-		
-		
-			<div class="blog-post"><!--楼盘 图片信息 -->
-				<h3>周边配套设施</h3>
-				<div class="ftr-gd4-img" >
-				    <div class="col-md-4 ftr-gd4-1" ng-repeat="h in loupanimg"><a href="#"><img width=80 height=80 src="{{h.hsrc}}" alt=""></a></div>
-				  <div class="clearfix"> </div>
-				</div>
 			</div>
 			</div>
 		 <div class="clearfix"> </div>

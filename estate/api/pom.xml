@@ -22,5 +22,17 @@
       <version>3.8.1</version>
       <scope>test</scope>
     </dependency>
+    <dependency>
+    	<groupId>zx</groupId>
+    	<artifactId>pojo</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.directwebremoting</groupId>
+    	<artifactId>dwr</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>commons-logging</groupId>
+    	<artifactId>commons-logging</artifactId>
+    </dependency>
   </dependencies>
 </project>

@@ -1,0 +1,995 @@
+
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+		<title>jQuery UI - Bootstrapåå°ç®¡çç³»ç»æ¨¡çAceä¸è½½</title>
+		<meta name="keywords" content="Bootstrapæ¨¡ç,Bootstrapæ¨¡çä¸è½½,Bootstrapæç¨,Bootstrapä¸­æ" />
+		<meta name="description" content="ç«é¿ç´ ææä¾Bootstrapæ¨¡ç,Bootstrapæç¨,Bootstrapä¸­æç¿»è¯ç­ç¸å³Bootstrapæä»¶ä¸è½½" />
+		<!-- basic styles -->
+<style type="text/css">  
+        .float{  
+            float:left;  
+            width : 200;  
+            height: 200;  
+            overflow: hidden;  
+            border: 1px solid #CCCCCC;  
+            border-radius: 10px;  
+            padding: 5px;  
+            margin: 5px;  
+        }  
+        img{  
+            position: relative;  
+        }  
+        .result{  
+            width: 200px;  
+            height: 200px;  
+            text-align: center;  
+            box-sizing: border-box;  
+        }  
+          
+    </style> 
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="assets/css/font-awesome.min.css" />
+
+		<!--[if IE 7]>
+		  <link rel="stylesheet" href="assets/css/font-awesome-ie7.min.css" />
+		<![endif]-->
+		<!-- page specific plugin styles -->
+
+		<link rel="stylesheet" href="assets/css/jquery-ui-1.10.3.full.min.css" />
+
+		<!-- fonts -->
+
+		<!-- <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Open+Sans:400,300" /> -->
+
+		<!-- ace styles -->
+   
+		<link rel="stylesheet" href="assets/css/ace.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-rtl.min.css" />
+		<link rel="stylesheet" href="assets/css/ace-skins.min.css" />
+		<!--[if lte IE 8]>
+		  <link rel="stylesheet" href="assets/css/ace-ie.min.css" />
+		<![endif]-->
+
+		<!-- inline styles related to this page -->
+
+		<!-- ace settings handler -->
+		<script src="assets/js/ace-extra.min.js"></script>
+		<script src="assets/js/jquery-1.8.0.min.js"></script>
+        
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=kAlRBGj0SCmjxdNmfHwwvcKFYYnGxD2o"></script>
+		<!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+
+		<!--[if lt IE 9]>
+		<script src="assets/js/html5shiv.js"></script>
+		<script src="assets/js/respond.min.js"></script>
+		<![endif]-->
+	</head>
+
+<script type="text/javascript">
+function list(){
+	//çæå¤§åè¡¨
+	$.get("grou.sw",function(data){
+					$.each(data,function(i,v){
+						
+						$("<li></li>").html("<a href='guanli.html?id="+(i+1)+"'><i class='icon-double-angle-right'></i>"+v.gname+"</a>").appendTo("#quyuguanli");
+					})
+				})
+	$.get("grou2.sw",function(data){
+					
+					$.each(data,function(i,v){
+						
+						$("<li></li>").html("<a href='home.html?id="+(i+1)+"'><i class='icon-double-angle-right'></i>"+v.hname+"</a>").appendTo("#fangyuanguanli");
+					})
+				})
+}
+
+function GetQueryString(name)
+{
+     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+     var r = window.location.search.substr(1).match(reg);
+     if(r!=null)return  unescape(r[2]); return null;
+}
+
+
+$(function(){
+	map();
+	list();	
+	yun();	
+})
+ var dataArr = {data:[]}; //直接传base64数据  
+     var fd = new FormData();  //FormData方式发送请求  ;  
+function yun(){
+	 var input = document.getElementById("file_input");  
+     var result,div;  
+    
+     if(typeof FileReader==='undefined'){  
+         result.innerHTML = "抱歉，你的浏览器不支持 FileReader";  
+         input.setAttribute('disabled','disabled');  
+     }else{  
+         input.addEventListener('change',readFile,false);  
+     }//handler  
+   
+      
+     
+       
+       
+    
+      var a=0;
+     function readFile(){  
+             a++;
+             var iLen = this.files.length;
+         for(var i=0;i<iLen;i++){  
+             if (!input['value'].match(/.jpg|.gif|.png|.jpeg|.bmp/i)){//判断上传文件格式  
+                 return alert("上传的图片格式不正确，请重新选择");  
+             }  
+             var reader = new FileReader(); 
+             reader.readAsDataURL(this.files[i]);  //转成base64  
+             
+             var fileName = this.files[i].name;  
+             reader.onload = function(e){///获取流中的数据 具体请看api 
+                     var imgMsg = {
+                         name : fileName,//获取文件名  
+                         base64 : this.result   //reader.readAsDataURL方法执行完后，base64数据储存在reader.result里  
+                 }
+             	 var str="s"+a;
+             console.log(str);
+                 fd.append(str,imgMsg.base64);
+                 dataArr.data.push(imgMsg);///把图片信息放入数组中
+                 
+                 result = '<div style="display:none" class="result" ><img src="'+this.result+'" alt=""/></div>'; ///创建一个div层吧图片base64格式放入 
+                 div = document.createElement('div');  
+                 div.innerHTML = result;  
+                 div['className'] = 'float';  
+                 $("#img_onload").append(div);//插入dom树 不能插入这个里面 换成自己的显示的地方
+                 var img = div.getElementsByTagName('img')[0];  
+                 img.onload = function(){  
+                     var nowHeight = ReSizePic(this); //设置图片大小  
+                     this.parentNode.style.display = 'block';  
+                     var oParent = this.parentNode;  
+                     if(nowHeight){  
+                         oParent.style.paddingTop = (oParent.offsetHeight - nowHeight)/2 + 'px';  
+                     }  
+                } 
+             }  
+         }  
+           
+           
+     }  
+       
+       
+     function send(){
+    	 if(a!=0){
+    		 fd.append("num",a);
+    	 }
+         $.ajax({  
+             url : 'urlList.sw',  
+             type : 'post',  
+             data : fd,  
+             //dataType: 'json',  
+             processData: false,   //用FormData传fd时需有这两项  
+             contentType: false,
+             success : function(data){  
+                 console.log('返回的数据：'+JSON.stringify(data))  
+           }   
+         })  
+     }  
+       
+     var oBtn = $("#btn_tj").get(0);  
+     oBtn.onclick=function(){
+             if(!input.files.length){  
+                 return alert('请先选择文件');  
+             }  
+         send();  
+     } 
+	
+}
+function ReSizePic(ThisPic){  
+    var RePicWidth = 200; //这里修改为您想显示的宽度值  
+  
+    var TrueWidth = ThisPic.width; //图片实际宽度  
+    var TrueHeight = ThisPic.height; //图片实际高度  
+      
+    if(TrueWidth>TrueHeight){  
+        //宽大于高  
+        var reWidth = RePicWidth;  
+        ThisPic.width = reWidth;  
+        //垂直居中  
+        var nowHeight = TrueHeight * (reWidth/TrueWidth);  
+        return nowHeight;  //将图片修改后的高度返回，供垂直居中用  
+    }else{  
+        //宽小于高  
+        var reHeight = RePicWidth;  
+        ThisPic.height = reHeight;  
+    }  
+}  
+
+
+
+
+
+var geoc = new BMap.Geocoder();//创建地理编码实例
+var marker = null;
+
+
+function map(){
+
+	var map = new BMap.Map('mapcontainer');
+	var point = new BMap.Point(112.1763258,32.09493365); // BD09坐标: 经度，纬度
+	map.centerAndZoom(point, 16);  //地图中心，缩放级别 3~19
+	map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+    //鼠标点击 获取地址 及标注提示
+    map.addEventListener('click', function(e){
+        var pt = e.point;
+
+        if(marker!=null){
+            marker.setPosition(pt);
+            parsePoint(pt);
+        }else{
+            marker = new BMap.Marker(pt);
+            map.addOverlay(marker);
+
+            var label = new BMap.Label("...",{offset:new BMap.Size(20,-10)});
+            marker.setLabel(label);
+
+            marker.enableDragging();    
+            marker.addEventListener("dragend", function(e2){
+                parsePoint(e2.point);
+            });
+            parsePoint(pt);
+        }
+       
+        
+    });
+
+
+   
+
+
+}
+function parsePoint(pt){
+    console.log('解析地址: ', pt.lng , ',' , pt.lat);
+    document.getElementById('point').value = pt.lng + ',' + pt.lat;
+    geoc.getLocation(pt, function(rs){
+        var addComp = rs.addressComponents;
+        var address = addComp.province + " " + addComp.city + " " + addComp.district + " " + addComp.street + " " + addComp.streetNumber;
+        document.getElementById('addres').value = address;
+        if(marker!=null){
+            //marker.setTitle(address);
+            marker.getLabel().setContent(address);
+        }
+    });
+}
+</script>
+	<body>
+		<div class="navbar navbar-default" id="navbar">
+			<script type="text/javascript">
+				try{ace.settings.check('navbar' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="navbar-container" id="navbar-container">
+				<div class="navbar-header pull-left">
+					<a href="#" class="navbar-brand">
+						<small>
+							<i class="icon-leaf"></i>
+							Ace Admin
+						</small>
+					</a><!-- /.brand -->
+				</div><!-- /.navbar-header -->
+
+				<div class="navbar-header pull-right" role="navigation">
+					<ul class="nav ace-nav">
+						<li class="grey">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="icon-tasks"></i>
+								<span class="badge badge-grey">4</span>
+							</a>
+
+							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="icon-ok"></i>
+									4 Tasks to complete
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Software Update</span>
+											<span class="pull-right">65%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:65%" class="progress-bar "></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Hardware Upgrade</span>
+											<span class="pull-right">35%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:35%" class="progress-bar progress-bar-danger"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Unit Testing</span>
+											<span class="pull-right">15%</span>
+										</div>
+
+										<div class="progress progress-mini ">
+											<div style="width:15%" class="progress-bar progress-bar-warning"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">Bug Fixes</span>
+											<span class="pull-right">90%</span>
+										</div>
+
+										<div class="progress progress-mini progress-striped active">
+											<div style="width:90%" class="progress-bar progress-bar-success"></div>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										See tasks with details
+										<i class="icon-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="purple">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="icon-bell-alt icon-animated-bell"></i>
+								<span class="badge badge-important">8</span>
+							</a>
+
+							<ul class="pull-right dropdown-navbar navbar-pink dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="icon-warning-sign"></i>
+									8 Notifications
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">
+												<i class="btn btn-xs no-hover btn-pink icon-comment"></i>
+												New Comments
+											</span>
+											<span class="pull-right badge badge-info">+12</span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<i class="btn btn-xs btn-primary icon-user"></i>
+										Bob just signed up as an editor ...
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">
+												<i class="btn btn-xs no-hover btn-success icon-shopping-cart"></i>
+												New Orders
+											</span>
+											<span class="pull-right badge badge-success">+8</span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<div class="clearfix">
+											<span class="pull-left">
+												<i class="btn btn-xs no-hover btn-info icon-twitter"></i>
+												Followers
+											</span>
+											<span class="pull-right badge badge-info">+11</span>
+										</div>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										See all notifications
+										<i class="icon-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="green">
+							<a data-toggle="dropdown" class="dropdown-toggle" href="#">
+								<i class="icon-envelope icon-animated-vertical"></i>
+								<span class="badge badge-success">5</span>
+							</a>
+
+							<ul class="pull-right dropdown-navbar dropdown-menu dropdown-caret dropdown-close">
+								<li class="dropdown-header">
+									<i class="icon-envelope-alt"></i>
+									5 Messages
+								</li>
+
+								<li>
+									<a href="#">
+										<img src="assets/avatars/avatar.png" class="msg-photo" alt="Alex's Avatar" />
+										<span class="msg-body">
+											<span class="msg-title">
+												<span class="blue">Alex:</span>
+												Ciao sociis natoque penatibus et auctor ...
+											</span>
+
+											<span class="msg-time">
+												<i class="icon-time"></i>
+												<span>a moment ago</span>
+											</span>
+										</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<img src="assets/avatars/avatar3.png" class="msg-photo" alt="Susan's Avatar" />
+										<span class="msg-body">
+											<span class="msg-title">
+												<span class="blue">Susan:</span>
+												Vestibulum id ligula porta felis euismod ...
+											</span>
+
+											<span class="msg-time">
+												<i class="icon-time"></i>
+												<span>20 minutes ago</span>
+											</span>
+										</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<img src="assets/avatars/avatar4.png" class="msg-photo" alt="Bob's Avatar" />
+										<span class="msg-body">
+											<span class="msg-title">
+												<span class="blue">Bob:</span>
+												Nullam quis risus eget urna mollis ornare ...
+											</span>
+
+											<span class="msg-time">
+												<i class="icon-time"></i>
+												<span>3:15 pm</span>
+											</span>
+										</span>
+									</a>
+								</li>
+
+								<li>
+									<a href="inbox.html">
+										See all messages
+										<i class="icon-arrow-right"></i>
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li class="light-blue">
+							<a data-toggle="dropdown" href="#" class="dropdown-toggle">
+								<img class="nav-user-photo" src="assets/avatars/user.jpg" alt="Jason's Photo" />
+								<span class="user-info">
+									<small>Welcome,</small>
+									Jason
+								</span>
+
+								<i class="icon-caret-down"></i>
+							</a>
+
+							<ul class="user-menu pull-right dropdown-menu dropdown-yellow dropdown-caret dropdown-close">
+								<li>
+									<a href="#">
+										<i class="icon-cog"></i>
+										Settings
+									</a>
+								</li>
+
+								<li>
+									<a href="#">
+										<i class="icon-user"></i>
+										Profile
+									</a>
+								</li>
+
+								<li class="divider"></li>
+
+								<li>
+									<a href="#">
+										<i class="icon-off"></i>
+										Logout
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul><!-- /.ace-nav -->
+				</div><!-- /.navbar-header --><!-- /.navbar-header -->
+			</div><!-- /.container -->
+		</div>
+
+		<div class="main-container" id="main-container">
+			<script type="text/javascript">
+				try{ace.settings.check('main-container' , 'fixed')}catch(e){}
+			</script>
+
+			<div class="main-container-inner">
+				<a class="menu-toggler" id="menu-toggler" href="#">
+					<span class="menu-text"></span>
+				</a>
+
+				<div class="sidebar" id="sidebar">
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'fixed')}catch(e){}
+					</script>
+
+					<div class="sidebar-shortcuts" id="sidebar-shortcuts">
+						<div class="sidebar-shortcuts-large" id="sidebar-shortcuts-large">
+							<button class="btn btn-success">
+								<i class="icon-signal"></i>
+							</button>
+
+							<button class="btn btn-info">
+								<i class="icon-pencil"></i>
+							</button>
+
+							<button class="btn btn-warning">
+								<i class="icon-group"></i>
+							</button>
+
+							<button class="btn btn-danger">
+								<i class="icon-cogs"></i>
+							</button>
+						</div>
+
+						<div class="sidebar-shortcuts-mini" id="sidebar-shortcuts-mini">
+							<span class="btn btn-success"></span>
+
+							<span class="btn btn-info"></span>
+
+							<span class="btn btn-warning"></span>
+
+							<span class="btn btn-danger"></span>
+						</div>
+					</div><!-- #sidebar-shortcuts -->
+
+					
+					<ul class="nav nav-list">
+						<li class="active">
+							<a href="index.html">
+								<i class="icon-dashboard"></i>
+								<span class="menu-text"> 控制台 </span>
+							</a>
+						</li>
+
+						<li>
+							<a href="typography.html">
+								<i class="icon-text-width"></i>
+								<span class="menu-text"> 文字排版 </span>
+							</a>
+						</li>
+
+					<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-desktop"></i>
+								<span class="menu-text">区域管理</span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu" id="quyuguanli">
+								
+								
+							</ul>
+						</li>
+						
+
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-list"></i>
+								<span class="menu-text">房源管理</span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu" id="fangyuanguanli">
+								
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-edit"></i>
+								<span class="menu-text"> 表单 </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li>
+									<a href="form-elements.html">
+										<i class="icon-double-angle-right"></i>
+										表单组件
+									</a>
+								</li>
+
+								<li>
+									<a href="form-wizard.html">
+										<i class="icon-double-angle-right"></i>
+										向导提示 &amp; 验证
+									</a>
+								</li>
+
+								<li>
+									<a href="wysiwyg.html">
+										<i class="icon-double-angle-right"></i>
+										编辑器
+									</a>
+								</li>
+
+								<li>
+									<a href="dropzone.html">
+										<i class="icon-double-angle-right"></i>
+										文件上传
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="widgets.html">
+								<i class="icon-list-alt"></i>
+								<span class="menu-text"> 插件 </span>
+							</a>
+						</li>
+
+						<li>
+							<a href="calendar.html">
+								<i class="icon-calendar"></i>
+
+								<span class="menu-text">
+									日历
+									<span class="badge badge-transparent tooltip-error" title="2&nbsp;Important&nbsp;Events">
+										<i class="icon-warning-sign red bigger-130"></i>
+									</span>
+								</span>
+							</a>
+						</li>
+
+						<li>
+							<a href="gallery.html">
+								<i class="icon-picture"></i>
+								<span class="menu-text"> 相册 </span>
+							</a>
+						</li>
+
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-tag"></i>
+								<span class="menu-text"> 更多页面 </span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li>
+									<a href="profile.html">
+										<i class="icon-double-angle-right"></i>
+										用户信息
+									</a>
+								</li>
+
+								<li>
+									<a href="inbox.html">
+										<i class="icon-double-angle-right"></i>
+										收件箱
+									</a>
+								</li>
+
+								<li>
+									<a href="pricing.html">
+										<i class="icon-double-angle-right"></i>
+										售价单
+									</a>
+								</li>
+
+								<li>
+									<a href="invoice.html">
+										<i class="icon-double-angle-right"></i>
+										购物车
+									</a>
+								</li>
+
+								<li>
+									<a href="timeline.html">
+										<i class="icon-double-angle-right"></i>
+										时间轴
+									</a>
+								</li>
+
+								<li>
+									<a href="login.html">
+										<i class="icon-double-angle-right"></i>
+										登录 &amp; 注册
+									</a>
+								</li>
+							</ul>
+						</li>
+
+						<li>
+							<a href="#" class="dropdown-toggle">
+								<i class="icon-file-alt"></i>
+
+								<span class="menu-text">
+									其他页面
+									<span class="badge badge-primary ">5</span>
+								</span>
+
+								<b class="arrow icon-angle-down"></b>
+							</a>
+
+							<ul class="submenu">
+								<li>
+									<a href="faq.html">
+										<i class="icon-double-angle-right"></i>
+										帮助
+									</a>
+								</li>
+
+								<li>
+									<a href="error-404.html">
+										<i class="icon-double-angle-right"></i>
+										404错误页面
+									</a>
+								</li>
+
+								<li>
+									<a href="error-500.html">
+										<i class="icon-double-angle-right"></i>
+										500错误页面
+									</a>
+								</li>
+
+								<li>
+									<a href="grid.html">
+										<i class="icon-double-angle-right"></i>
+										网格
+									</a>
+								</li>
+
+								<li>
+									<a href="blank.html">
+										<i class="icon-double-angle-right"></i>
+										空白页面
+									</a>
+								</li>
+							</ul>
+						</li>
+					</ul><!-- /.nav-list -->
+
+					<div class="sidebar-collapse" id="sidebar-collapse">
+						<i class="icon-double-angle-left" data-icon1="icon-double-angle-left" data-icon2="icon-double-angle-right"></i>
+					</div>
+
+					<script type="text/javascript">
+						try{ace.settings.check('sidebar' , 'collapsed')}catch(e){}
+					</script>
+				</div>
+
+				<div class="main-content">
+					<div class="breadcrumbs" id="breadcrumbs">
+						<script type="text/javascript">
+							try{ace.settings.check('breadcrumbs' , 'fixed')}catch(e){}
+						</script>
+
+						<ul class="breadcrumb">
+							<li>
+								<i class="icon-home home-icon"></i>
+								<a href="#">Home</a>
+							</li>
+
+							<li>
+								<a href="#">UI Elements</a>
+							</li>
+							<li class="active">jQuery UI</li>
+						</ul><!-- .breadcrumb -->
+
+						<div class="nav-search" id="nav-search">
+							<form class="form-search">
+								<span class="input-icon">
+									<input type="text" placeholder="Search ..." class="nav-search-input" id="nav-search-input" autocomplete="off" />
+									<i class="icon-search nav-search-icon"></i>
+								</span>
+							</form>
+						</div><!-- #nav-search -->
+					</div>
+
+					<div class="page-content">
+						<div class="page-header">
+							<a class="btn btn-success" href="#">è¿å</a>
+						</div><!-- /.page-header -->
+
+
+						<div class="row">
+						<form method='post' action='urlList.sw' enctype="multipart/form-data" >
+						<table class="table-bordered table-hover table-condensed" width="100%">
+								<tbody><tr><td class='col-sm-1 col-md-1'>楼盘名称:</td><td><input type='text' name='buliname' class='col-sm-10 col-md-10'/></td></tr>
+								<tr><td>区域:</td><td><input type='text' name='reid' /> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;商圈:<input type='text' name='reid' /></td></tr>
+								<tr><td>状态:</td><td><input type='text' name='sid'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;楼型:<input type='text' name='manid' />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+																					 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;类型:<input type='text' name='moid' />
+																					  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;装修度:<input type='text' name='fid' /></td></tr>
+								<tr><td>参考价格:</td><td><input type='text' name='jprice'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;开盘时间:<input type='text' name='starttime' />
+																						  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;交房时间:<input type='text' name='endtime' /></td></tr>
+								<tr><td>楼盘地址:</td><td><input type='text' name='addres'  id='addres'  class='col-sm-8 col-md-8'/><button class="btn btn-success"  data-target="#mymodal" data-toggle="modal">地图</button></td></tr>
+								<tr><td>联系电话:</td><td><input type='text' name='phone'/><mark>填写手机号或座机号，方便用户直接拨打咨询</mark></td></tr>
+								<tr><td>列表封面:</td><td><input type='text' name='viewimg'/></td></tr>
+								<tr><td>学区所属:</td><td><input type='text' name='district' class='col-sm-8 col-md-8'/></td></tr>
+								<tr><td>开发商:</td><td><input type='text' name='developers'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;许可证号:<input type='text' name='licence' />
+																							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;建筑面积:<input type='text' name='jzarea' /></td></tr>
+								<tr><td>占地面积:</td><td><input type='text' name='zdarea'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;容积率:<input type='text' name='volume' />
+																							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;绿化率:<input type='text' name='green' /></td></tr>
+								<tr><td>物业公司:</td><td><input type='text' name='company'/> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;物业费:<input type='text' name='cost' />
+																							 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;车库车位:<input type='text' name='garage' /></td></tr>
+								<tr><td>优惠信息:</td><td><textarea name='message' class='col-sm-8 col-md-8'></textarea></td></tr>
+								<tr><td>周边配套:</td><td><textarea name='information' class='col-sm-8 col-md-8'></textarea></td></tr>
+								<tr><td>新房图库:</td><td id="img_onload">
+								<div class="container">  
+                   					 <label>请选择一个图像文件：</label>  
+                    					<input type="file" id="file_input" multiple/> <!--用input标签并选择type=file，记得带上multiple，不然就只能单选图片了-->  
+                    				<button class='btn btn-parimary' type='button' id="btn_tj">提交</button>  
+                				</div>
+								</td></tr>
+								<tr><td></td><td><div  class='col-sm-7 col-md-7 text-center'><button class="btn btn-success" type='button' onclick='tj()'>确定</button>
+								<button class="btn btn-info" type='button'>重置</button>
+								</div></td></tr>
+								</tbody>
+							</table>
+						</form>		
+						</div><!-- /.row -->
+						</div><!-- /.row -->
+					</div><!-- /.page-content -->
+				</div><!-- /.main-content -->
+ <!-- 模态框 -->
+ <div class="modal fade bs-example-model-lg " id="mymodal" >
+								<div class="modal-dialog ";">
+									
+									<div class="modal-content">
+									<div class="modal-header">选择地址</div>
+									<div class="modal-body">
+									
+    <input type="hidden" id="point" value=""/><br>
+ <div id="mapcontainer" style='width:500px;height:400px'></div>
+									</div>
+									<div class="modal-footer">
+									<button type="button" class="btn btn-default" data-dismiss="modal" onclick="tianjia()">确定</button>
+										<button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+									</div>
+									</div>
+								</div>
+							</div>
+				<div class="ace-settings-container" id="ace-settings-container">
+					<div class="btn btn-app btn-xs btn-warning ace-settings-btn" id="ace-settings-btn">
+						<i class="icon-cog bigger-150"></i>
+					</div>
+
+					<div class="ace-settings-box" id="ace-settings-box">
+						<div>
+							<div class="pull-left">
+								<select id="skin-colorpicker" class="hide">
+									<option data-skin="default" value="#438EB9">#438EB9</option>
+									<option data-skin="skin-1" value="#222A2D">#222A2D</option>
+									<option data-skin="skin-2" value="#C6487E">#C6487E</option>
+									<option data-skin="skin-3" value="#D0D0D0">#D0D0D0</option>
+								</select>
+							</div>
+							<span>&nbsp; Choose Skin</span>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-navbar" />
+							<label class="lbl" for="ace-settings-navbar"> Fixed Navbar</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-sidebar" />
+							<label class="lbl" for="ace-settings-sidebar"> Fixed Sidebar</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-breadcrumbs" />
+							<label class="lbl" for="ace-settings-breadcrumbs"> Fixed Breadcrumbs</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-rtl" />
+							<label class="lbl" for="ace-settings-rtl"> Right To Left (rtl)</label>
+						</div>
+
+						<div>
+							<input type="checkbox" class="ace ace-checkbox-2" id="ace-settings-add-container" />
+							<label class="lbl" for="ace-settings-add-container">
+								Inside
+								<b>.container</b>
+							</label>
+						</div>
+					</div>
+				</div><!-- /#ace-settings-container -->
+			</div><!-- /.main-container-inner -->
+
+			<a href="#" id="btn-scroll-up" class="btn-scroll-up btn btn-sm btn-inverse">
+				<i class="icon-double-angle-up icon-only bigger-110"></i>
+			</a>
+		</div><!-- /.main-container -->
+
+		<!-- basic scripts -->
+
+		<!--[if !IE]> -->
+
+		<!-- <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> -->
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<![endif]-->
+
+		<!--[if !IE]> -->
+
+		<script type="text/javascript">
+			window.jQuery || document.write("<script src='assets/js/jquery-2.0.3.min.js'>"+"<"+"/script>");
+		</script>
+
+		<!-- <![endif]-->
+
+		<!--[if IE]>
+<script type="text/javascript">
+ window.jQuery || document.write("<script src='assets/js/jquery-1.10.2.min.js'>"+"<"+"/script>");
+</script>
+<![endif]-->
+
+		<script type="text/javascript">
+			if("ontouchend" in document) document.write("<script src='assets/js/jquery.mobile.custom.min.js'>"+"<"+"/script>");
+		</script>
+		<script src="assets/js/bootstrap.min.js"></script>
+		<script src="assets/js/typeahead-bs2.min.js"></script>
+
+		<!-- page specific plugin scripts -->
+
+		<script src="assets/js/jquery-ui-1.10.3.full.min.js"></script>
+		<script src="assets/js/jquery.ui.touch-punch.min.js"></script>
+		<script src="assets/js/dropzone.min.js"></script>
+		<!-- ace scripts -->
+
+		<script src="assets/js/ace-elements.min.js"></script>
+		<script src="assets/js/ace.min.js"></script>
+
+		<!-- inline scripts related to this page -->
+
+		<script type="text/javascript">
+
+		</script>
+	
+</body>
+</html>
