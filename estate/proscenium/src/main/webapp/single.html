@@ -1,0 +1,406 @@
+<!DOCTYPE HTML>
+<html ng-app="myApp">
+<head>
+<title>Single</title>
+<link href="css/style.css" rel="stylesheet" type="text/css" media="all"/>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); }
+</script>
+<meta name="keywords" content="Auction Responsive web template, Bootstrap Web Templates, Flat Web Templates, AndriodCompatible web template, Smartphone Compatible web template, free webdesigns for Nokia, Samsung, LG, SonyErricsson, Motorola web design" />
+<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" media="all">
+<link rel="stylesheet" href="css/reveal.css">	
+<script src="js/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="js/jquery.reveal.js"></script>
+<script type="text/javascript" src="js/move-top.js"></script>
+<script type="text/javascript" src="js/easing.js"></script>
+<script type="text/javascript" src="http://api.map.baidu.com/api?v=3.0&ak=CZ7ybLYbkiL8LXKvFQ4L7ByhedDV9SAD"></script>
+	<script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
+<script>
+$(function(){
+	scrollImg();
+	var goeasy = new GoEasy({
+	    appkey: 'BS-e74c1578101a4aeb9e80da210bd61bf0'});
+	goeasy.subscribe({
+	  channel: 'message',
+	onMessage: function (result) {
+		var display=$("#d1")
+		display.html("");
+		display.html(result.content);
+			setTimeout(function(){
+				$("#d1").get(0).style.display="block";
+			},7000);
+			setTimeout(function(){
+				$("#d1").get(0).style.display="none";
+			},12000);
+	}
+	});
+})
+function scrollImg(){
+    var posX,posY;
+    if (window.innerHeight) {
+        posX = window.pageXOffset;
+        posY = window.pageYOffset;
+    }
+    else if (document.documentElement && document.documentElement.scrollTop) {
+        posX = document.documentElement.scrollLeft;
+        posY = document.documentElement.scrollTop;
+    }
+    else if (document.body) {
+        posX = document.body.scrollLeft;
+        posY = document.body.scrollTop;
+    }
+  
+    var ad=document.getElementById("d1");
+    ad.style.top=posY+"px";
+    ad.style.left=(posX+50)+"px";
+    setTimeout("scrollImg()",100);
+}
+
+</script>
+	<script type="text/javascript">
+			jQuery(document).ready(function($) {
+				$(".scroll").click(function(event){		
+					event.preventDefault();
+					$('html,body').animate({scrollTop:$(this.hash).offset().top},1000);
+				});
+			});
+	</script>
+</head>
+<body  ng-controller="newbulidxqController">
+<!-- //end-smoth-scrolling -->
+<!--header start here-->
+<div id="d1" class="col-md-11 col-sm-11 col-xs-10" style="position:absolute;z-index:10000;background:#eeeeee;text-align:center;cursor:pointer;opacity:0.8;display:none">
+<div>content</div></div>
+<div class="header"  ><!--新楼房的详情-->
+	<div class="container">
+		<div class="header-main">
+			<div class="logo">
+				<a href="index.html"> <img src="images/logo.png" alt="" title=""> </a>
+			</div>
+			<div class="head-right">
+			  <div class="top-nav">
+					<span class="menu"> <img src="images/icon.png" alt=""/></span>
+				<ul class="res">
+					<li><a class="active" href="index.html">首页</a></li>
+					<!-- <li><a href="about.html">About Us</a></li> -->
+					<li><a href="about.html?hid=1">楼盘显示</a></li>
+					<li><a href="contact.html">个人详情</a></li>
+				<div class="clearfix"> </div>
+				</ul>
+				<!-- script-for-menu -->
+							 <script>
+							   $( "span.menu" ).click(function() {
+								 $( "ul.res" ).slideToggle( 300, function() {
+								 // Animation complete.
+								  });
+								 });
+							</script>
+			<!-- /script-for-menu -->
+			 </div>
+		    
+			<div class="social">
+				<ul >
+					<li><a class="fa" href="#"> </a></li>
+					<li><a class="tw" href="#"> </a></li>
+					<li><a class="p" href="#"> </a></li>
+				</ul>
+				</div>
+				
+			<div class="search-box">
+				<div id="sb-search" class="sb-search">
+					<form>
+						<input class="sb-search-input" placeholder="Search" type="search" name="search" id="search">
+						<input class="sb-search-submit" type="submit" value="">
+						<span class="sb-icon-search"> </span>
+					</form>
+			   </div>
+			</div>
+			<div class="clearfix"> </div>
+			   <!-- search-scripts -->
+					<script src="js/classie.js"></script>
+					<script src="js/uisearch.js"></script>
+						<script>
+							new UISearch( document.getElementById( 'sb-search' ) );
+						</script>
+			  <!-- //search-scripts -->
+		</div>
+		
+		<div class="clearfix"> </div>
+		</div>
+	</div>
+</div>
+<!--header end here-->
+<!--blog start here-->
+<div class="blog"><!-- 地图写的 -->
+	<div class="container">
+		<div class="blog-main">
+			<div class="col-md-9 blog-left">
+				<div class="blog-grids">
+					<a href="#"><img width=825 height=500 src="{{buliding.viewimg}}" alt=""></a>
+					<div class="blog-detail">
+						<h3><span class="blog-clr">楼盘信息</span></h3>
+<!-- 						<h4> in <span class="blog-clr">General</span> by Pexeto <span class="blog-clr"> march </span> 3,2015 <span class="blog-clr"> 4 </span><a href="#">Comments</a></h4> -->
+<!-- 						<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.</p> -->
+ 						<div class="blog-para">
+							{{buliding.information}}<br>
+							{{buliding.message}}
+						</div>
+						<h3><span class="blog-clr">位置信息</span></h3>
+						<div id="mapcontainer" style="widht:800px;height:500px;"></div>
+						<!-- <div class="blog-btn"><a href="#">Read More</a></div> -->
+					</div>
+					<script>
+					 var map = new BMap.Map('mapcontainer');
+				        var point = new BMap.Point(112.1763258,32.09493365); // BD09坐标: 经度，纬度
+				        map.centerAndZoom(point, 16);  //地图中心，缩放级别 3~19
+				        map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
+
+				        
+				        var geoc = new BMap.Geocoder();//创建地理编码实例
+				        var marker = null;
+				       
+				        //鼠标点击 获取地址 及标注提示
+				        map.addEventListener('click', function(e){
+				            var pt = e.point;
+
+				            if(marker!=null){
+				               marker.setPosition(pt);
+				               //parsePoint(pt);
+				            }else{
+				               marker = new BMap.Marker(pt);
+				               map.addOverlay(marker);
+
+				                var label = new BMap.Label("楼盘位置",{offset:new BMap.Size(20,-10)});
+					            marker.setLabel(label);
+
+				                marker.enableDragging();   
+				                marker.addEventListener("dragend", function(e2){
+				                    //parsePoint(e2.point);
+				                });
+				               // parsePoint(pt);
+				            }
+				           
+				            
+				        });
+					</script>
+					<div class="data-line">
+			    	<ul>
+			    		<li><small class="calen"> </small><span class="calen">July 30, 2015</span></li>
+			    		<li><a href="#"><small class="admin"> </small><span class="calen">Admin</span></a></li>
+			    		<li><a href="#"><small class="comme"> </small><span class="calen">No comments</span></a></li>
+			    		<li><a href="#"><small class="post"> </small><span class="calen">View Posts</span></a></li>
+			    		<li><a href="#"><small class="link"> </small><span class="calen">Premalink</span></a></li>
+			    	</ul>
+			    </div>
+			   <div class="single-commemts">
+			   	<div class="col-md-2 user">
+							<a href="#"><img src="images/user.png" alt=""/></a>
+						</div>
+						<div class="col-md-10 user-comment">
+							<a href="#"><h4>用户啊哈哈</h4></a>
+							<p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore.</p>
+						    <a class="comme" href="#">On December 14, 2014 18:05</a>
+						    <div class="user-bwn">
+						    	<a href="#"> Relay</a>
+						    </div>
+						</div>
+                  <div class="clearfix"> </div>
+			   </div>
+			   <div class="magsingle-contact">
+			   	<h3>用户品论区</h3>
+			    	<input type="text" value="Name" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Name';}"/>
+			    	<input type="text"  class="no-mar" value="Email" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Email';}"/>
+			    	<textarea onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Message';}">Message</textarea>
+			    	<input type="submit"  value="Submit Comment" />
+			   </div>
+			</div>
+
+				</div>
+			</div>
+			
+			
+			<div class="col-md-3 blog-right"  >
+				<div class="blog-cate" ><!-- 显示楼盘详细信息 -->
+				<h3>Categories</h3>
+				<ul >
+					<li><span style="color:red;">楼盘名称:&nbsp;&nbsp;&nbsp;</span>{{buliding.buliname}}</li>
+					<li><span style="color:red;">楼型: &nbsp;&nbsp;&nbsp;</span>{{buliding.manid}}</li>
+					<li><span style="color:red;">楼盘地址:&nbsp;&nbsp;&nbsp;</span>{{buliding.addres}}</li>
+					<li><span style="color:red;">参考价格: &nbsp;&nbsp;&nbsp; </span>{{buliding.jprice}}</li>
+					<li><span style="color:red;">优惠信息: &nbsp;&nbsp;&nbsp;</span>{{buliding.message}}</li>
+					<li><span style="color:red;">开发商: &nbsp;&nbsp;&nbsp;</span>{{buliding.developers}}</li>
+					<li><span style="color:red;">联系电话:&nbsp;&nbsp;&nbsp;</span>{{buliding.phone}}</li>
+					<li><a href="javascript:void(0)" style="color:blue;" data-reveal-id="myModal">弹出来</a></li>
+				</ul>
+				
+			</div>
+		
+		
+			<div class="blog-post"><!--楼盘 图片信息 -->
+				<h3>周边配套设施</h3>
+				<div class="ftr-gd4-img" >
+				    <div class="col-md-4 ftr-gd4-1" ng-repeat="h in loupanimg"><a href="#"><img width=80 height=80 src="{{h.hsrc}}" alt=""></a></div>
+				  <div class="clearfix"> </div>
+				</div>
+			</div>
+			</div>
+		 <div class="clearfix"> </div>
+		</div>
+</div>
+<!--blog end here-->
+<!--footer start here-->
+<div class="footer">
+	<div class="container">
+		<div class="footer-main">
+			<div class="col-md-3 footer-grid">
+				<h3>About This Theme</h3>
+				<p>But I must explain to you how all this mistaken idea of denouncing pleasure and praising pain was born and I will give you a complete account of the system, and expound the actual teachings of the great explorer of the truth, the master-builder of human happiness.Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.account of the system.</p>
+			</div>
+			<div class="col-md-3 footer-grid">
+				<h3>Recents Posts</h3>
+			  <div class="ftr-sub-gd">
+				<div class="col-md-4 ftr-gd2-img">
+					<a href="#"><img src="images/s1.jpg" alt=""></a>
+				</div>
+				<div class="col-md-8 ftr-gd2-text">
+						<a href="#"><h4>How to Have The Best Vacation</h4></a>
+						<a href="#"><p>Mar 3rd,2015 就是这个</p></a>
+				</div>
+				<div class="clearfix"> </div>
+			  </div>
+			  <div class="ftr-sub-gd">
+				<div class="col-md-4 ftr-gd2-img">
+					<a href="#"><img src="images/s2.jpg" alt=""></a>
+				</div>
+				<div class="col-md-8 ftr-gd2-text">
+						<a href="#"><h4>How to Have The Best Vacation</h4></a>
+						<a href="#"><p>Mar 3rd,2015</p></a>
+				</div>
+				<div class="clearfix"> </div>
+			  </div>
+			  <div class="ftr-sub-gd">
+				<div class="col-md-4 ftr-gd2-img">
+					<a href="#"><img src="images/s3.jpg" alt=""></a>
+				</div>
+				<div class="col-md-8 ftr-gd2-text">
+						<a href="#"><h4>How to Have The Best Vacation</h4></a>
+						<a href="#"><p>Mar 3rd,2015</p></a>
+				</div>
+				<div class="clearfix"> </div>
+			  </div>
+		   </div>
+			<div class="col-md-3 footer-grid">
+				<h3>Categories</h3>
+				<ul>
+					<li><a href="#">Featured</a></li>
+					<li><a href="#">General</a></li>
+					<li><a href="#">Lorem Ipsum</a></li>
+					<li><a href="#">literature</a></li>
+					<li><a href="#">Videos</a></li>
+				</ul>
+			</div>
+			<div class="col-md-3 footer-grid">
+				<h3>Recent Projects</h3>
+				<div class="ftr-gd4-img">
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f1.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f2.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f3.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f4.jpg" alt=""></a></div>
+				  <div class="clearfix"> </div>
+				</div>
+				<div class="ftr-gd4-img">
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f5.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f6.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f7.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f8.jpg" alt=""></a></div>
+				  <div class="clearfix"> </div>
+				</div>
+				<div class="ftr-gd4-img">
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f9.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f10.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f11.jpg" alt=""></a></div>
+				    <div class="col-md-3 ftr-gd4-1"><a href="#"><img src="images/f12.jpg" alt=""></a></div>
+				  <div class="clearfix"> </div>
+				</div>
+			</div>
+		<div class="clearfix"> </div>
+		</div>
+	</div>
+	<div class="copyright">
+	<div class="container">
+		<div class="copy-main">
+			<div class="copy-left">
+				<p>Copyright &copy; 2015.Company name All rights reserved.More Templates <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></p>
+			</div>
+			<div class="copy-right"> 
+				<ul>
+					<li><a class="active" href="index.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="blog.html">Blog</a></li>
+					<li><a href="contact.html">Contact</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+</div>
+<!--footer end here-->
+</body>
+<script src="/proscenium/js/angular.min.js"></script>
+<script src="/proscenium/js/angular-ui-router.min.js"></script>
+<script type="text/javascript">
+
+// (function($){
+// 	$.geturlparam=function(name){
+// 		 var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+//         var r = window.location.search.substr(1).match(reg);
+//  	     if(r!=null)return  unescape(r[2]); return null;
+// 	}
+// })(jQuery);
+
+var myapp=angular.module("myApp",[]);
+
+
+///////详情弹框
+function xiangqing(){
+	$("#myModal").modal('show');  //手动开启
+}
+
+
+myapp.service("Service",function($http){
+	
+	postCfg = {
+		    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+		    transformRequest: function (data) {
+		        return $.param(data);
+		    }
+		};
+	
+	this.GetQueryString=function(name){
+	     var reg = new RegExp("(^|&)"+ name +"=([^&]*)(&|$)");
+	     var r = window.location.search.substr(1).match(reg);
+	     if(r!=null)return  unescape(r[2]); return null;
+	}
+
+	   this.cxyhdd=function($scope,bulid){
+		   $http.post("/proscenium/loadbiu.sw",{ 
+			   "bulid":bulid
+		    },postCfg).then(function(response){
+		    	$scope.buliding=response.data;
+		    	$scope.loupanimg=response.data.homeimg;
+			 }, function(response){
+				 console.log("ERRORwd:" , response);
+			 });
+	   }
+});
+
+myapp.controller("newbulidxqController",function($scope,Service){
+    var bulid=Service.GetQueryString("bulid");//获取url地址的id值
+	   $scope.loupanimg=[];
+       $scope.buliding={};
+ 	   Service.cxyhdd($scope,bulid);//全部查询楼盘的详细信息
+});
+</script>
+
+</html>

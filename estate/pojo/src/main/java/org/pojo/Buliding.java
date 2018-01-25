@@ -11,40 +11,45 @@ import org.springframework.format.annotation.DateTimeFormat;
 import com.fasterxml.jackson.annotation.JsonFormat;
 @Alias("buliding")
 public class Buliding implements Serializable{
-	private Integer bulid;
-	private String buliname;
-	private Integer regnid;
-	private Integer sid;
-	private Integer  manid;
-	private Integer moid;
-	private Integer fid;
-	private Float jprice;
+	private Integer bulid;//id*
+	private Integer hid;//所属类型
+	private String buliname;//楼盘名称*
+	private Integer reid;//区域id*
+	private Integer regnid;//商圈id
+	private Integer sid;//状态id
+	private Integer  manid;//楼型id
+	private Integer moid;//类型id*
+	private Integer fid;//装修度id*
+	private Float jprice;//参考价格/二手房单价
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GTM+8")
-	private Date stattime;
+	private Date starttime;//开盘时间/二手房的建成时间（年代）
 	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GTM+8")
-	private Date endtime;
-	private String addres;
-	private String phone;
-	private String viewimg;
-	private String district;
-	private String developers;
-	private String licence;
-	private Float jzarea;
-	private Float zdarea;
-	private Float volume;
-	private Float green;
-	private String company;
-	private Float cost;
-	private Integer garage;
-	private Float message;
-	private String information;
-	private Integer maid;//图片
-	//几个外键吧 多对一
+	private Date endtime;//交房时间
+	private String addres;//地址*
+	private String phone;//联系电话*
+	private String viewimg;//列表封面图片
+	private String district;//学区所属
+	private String developers;//开发商
+	private String licence;//许可证
+	private Float jzarea;//建筑面机
+	private Float zdarea;//占地面积
+	private Float volume;//容积面积
+	private Float green;//绿化面积
+	private String company;//物业公司
+	private Float cost;//物业费
+	private Integer garage;//车库
+	private String message;//优惠信息/二手房的房源描述*
+	private String information;//周边配套*
+	private Integer maid;//图片*
+	private String statu;//状态
+	//几个外键吧 多对一类型
 	private Management management;
-	//一对多
+	//一对多图片
 	private Collection homeimg=new ArrayList<Homeimg>();
+	//多对一房源类型类型
+	private Home home;
 	public Integer getBulid() {
 		return bulid;
 	}
@@ -57,11 +62,12 @@ public class Buliding implements Serializable{
 	public void setBuliname(String buliname) {
 		this.buliname = buliname;
 	}
-	public Integer getRegnid() {
-		return regnid;
+
+	public Integer getReid() {
+		return reid;
 	}
-	public void setRegnid(Integer regnid) {
-		this.regnid = regnid;
+	public void setReid(Integer reid) {
+		this.reid = reid;
 	}
 	public Integer getSid() {
 		return sid;
@@ -93,11 +99,11 @@ public class Buliding implements Serializable{
 	public void setJprice(Float jprice) {
 		this.jprice = jprice;
 	}
-	public Date getStattime() {
-		return stattime;
+	public Date getStarttime() {
+		return starttime;
 	}
-	public void setStattime(Date stattime) {
-		this.stattime = stattime;
+	public void setStarttime(Date starttime) {
+		this.starttime = starttime;
 	}
 	public Date getEndtime() {
 		return endtime;
@@ -183,10 +189,10 @@ public class Buliding implements Serializable{
 	public void setGarage(Integer garage) {
 		this.garage = garage;
 	}
-	public Float getMessage() {
+	public String getMessage() {
 		return message;
 	}
-	public void setMessage(Float message) {
+	public void setMessage(String message) {
 		this.message = message;
 	}
 	public String getInformation() {
@@ -213,16 +219,46 @@ public class Buliding implements Serializable{
 	public void setHomeimg(Collection homeimg) {
 		this.homeimg = homeimg;
 	}
+	
+	public Integer getHid() {
+		return hid;
+	}
+	public void setHid(Integer hid) {
+		this.hid = hid;
+	}
+	public Home getHome() {
+		return home;
+	}
+	public void setHome(Home home) {
+		this.home = home;
+	}
+	
+	
+	public Integer getRegnid() {
+		return regnid;
+	}
+	public void setRegnid(Integer regnid) {
+		this.regnid = regnid;
+	}
+	
+	public String getStatu() {
+		return statu;
+	}
+	public void setStatu(String statu) {
+		this.statu = statu;
+	}
 	@Override
 	public String toString() {
-		return "Buliding [bulid=" + bulid + ", buliname=" + buliname + ", regnid=" + regnid + ", sid=" + sid
-				+ ", manid=" + manid + ", moid=" + moid + ", fid=" + fid + ", jprice=" + jprice + ", stattime="
-				+ stattime + ", endtime=" + endtime + ", addres=" + addres + ", phone=" + phone + ", viewimg=" + viewimg
-				+ ", district=" + district + ", developers=" + developers + ", licence=" + licence + ", jzarea="
-				+ jzarea + ", zdarea=" + zdarea + ", volume=" + volume + ", green=" + green + ", company=" + company
-				+ ", cost=" + cost + ", garage=" + garage + ", message=" + message + ", information=" + information
-				+ ", maid=" + maid + ", management=" + management + ", homeimg=" + homeimg + "]";
+		return "Buliding [bulid=" + bulid + ", hid=" + hid + ", buliname=" + buliname + ", reid=" + reid + ", regnid="
+				+ regnid + ", sid=" + sid + ", manid=" + manid + ", moid=" + moid + ", fid=" + fid + ", jprice="
+				+ jprice + ", starttime=" + starttime + ", endtime=" + endtime + ", addres=" + addres + ", phone=" + phone
+				+ ", viewimg=" + viewimg + ", district=" + district + ", developers=" + developers + ", licence="
+				+ licence + ", jzarea=" + jzarea + ", zdarea=" + zdarea + ", volume=" + volume + ", green=" + green
+				+ ", company=" + company + ", cost=" + cost + ", garage=" + garage + ", message=" + message
+				+ ", information=" + information + ", maid=" + maid + ", management=" + management + ", homeimg="
+				+ homeimg + ", home=" + home + "]";
 	}
+	
 	
 	
 }

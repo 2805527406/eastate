@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context" xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:tx="http://www.springframework.org/schema/tx" xmlns:dubbo="http://code.alibabatech.com/schema/dubbo" xmlns:amq="http://activemq.apache.org/schema/core" xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://code.alibabatech.com/schema/dubbo http://code.alibabatech.com/schema/dubbo/dubbo.xsd http://activemq.apache.org/schema/core http://activemq.apache.org/schema/core/activemq-core.xsd ">
+	<!-- 配置数据库连接信息 -->
+	<bean id="ds" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="com.mysql.jdbc.Driver"></property>
+		<property name="url" value="jdbc:mysql://localhost:3306/estate?useUnicodi=true&amp;characterEncoding=utf8"></property>
+		<property name="username" value="root"></property>
+		<property name="password" value="root"></property>
+	</bean>
+	<!-- 配置mybatis工厂 -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds"></property>
+		<!-- 扫描sql映射信息的xml文档 -->
+		<property name="mapperLocations" value="classpath:/com/dao/*.xml"></property>
+		<!-- 扫描映射类，使注解生效  -->
+		<property name="typeAliasesPackage" value="org.pojo"></property>
+	</bean>
+	<!-- 使工厂生效 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.dao"></property>
+		<property name="sqlSessionFactory" ref="sqlSessionFactory"></property>
+	</bean>
+	
+	<!-- <bean  class="redis.clients.jedis.Jedis">reids缓存
+		<constructor-arg name="host" value="192.168.0.204"></constructor-arg>
+		<constructor-arg name="port" value="6379"></constructor-arg>
+	</bean> -->
+	<bean id="multipartResolver" 
+class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+<!-- 上传文件大小上限，单位为字节（10MB） -->
+<property name="maxUploadSize"> 
+<value>10485760</value> 
+</property> 
+<!-- 请求的编码格式，必须和jSP的pageEncoding属性一致，以便正确读取表单的内容，默认为ISO-8859-1 -->
+<property name="defaultEncoding">
+<value>UTF-8</value>
+</property>
+</bean>
+
+<dubbo:application name="proscenium"></dubbo:application>
+	<!-- registry:注册    应用:application protocol：协议，规则 -->
+	<dubbo:registry address="zookeeper://10.0.14.187:2181"></dubbo:registry>
+	<dubbo:reference interface="org.api.ServiceAPI" id="api"></dubbo:reference>
+
+
+<!--  avtivemq监听 -->	
+<!-- <amq:connectionFactory id="amqConnectionFactory" brokerURL="tcp://10.0.13.78:61616"></amq:connectionFactory> -->
+<!-- 	<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory"> -->
+<!-- 		<constructor-arg ref="amqConnectionFactory"></constructor-arg> -->
+<!-- 		<property name="sessionCacheSize" value="100"></property> -->
+<!-- 	</bean> -->
+<!-- 	 目的地 --> 
+<!-- 	<bean id="dest" class="org.apache.activemq.command.ActiveMQTopic"> -->
+<!-- 		<constructor-arg value="backstage"></constructor-arg> -->
+<!-- 	</bean> -->
+<!-- <bean id="s2" class="com.util.DwrPush"></bean> -->
+<!-- 	<bean class="org.springframework.jms.listener.DefaultMessageListenerContainer"> -->
+<!-- 		<property name="connectionFactory" ref="connectionFactory"></property> -->
+<!-- 		<property name="destination" ref="dest"></property> -->
+<!-- 		<property name="messageListener" ref="s2"></property> -->
+<!-- 	</bean> -->
+</beans>

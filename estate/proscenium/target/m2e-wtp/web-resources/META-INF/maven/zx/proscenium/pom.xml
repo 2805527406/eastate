@@ -28,7 +28,84 @@
     	<groupId>javax.servlet.jsp</groupId>
     	<artifactId>jsp-api</artifactId>
     </dependency>
+    <dependency>
+    	<groupId>zx</groupId>
+    	<artifactId>pojo</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>com.fasterxml.jackson.core</groupId>
+    	<artifactId>jackson-databind</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-webmvc</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>mysql</groupId>
+    	<artifactId>mysql-connector-java</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.mybatis</groupId>
+    	<artifactId>mybatis</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.mybatis</groupId>
+    	<artifactId>mybatis-spring</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-jdbc</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>commons-logging</groupId>
+    	<artifactId>commons-logging</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>commons-fileupload</groupId>
+    	<artifactId>commons-fileupload</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.directwebremoting</groupId>
+    	<artifactId>dwr</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>zx</groupId>
+    	<artifactId>api</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>com.alibaba</groupId>
+    	<artifactId>dubbo</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>com.101tec</groupId>
+    	<artifactId>zkclient</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.zookeeper</groupId>
+    	<artifactId>zookeeper</artifactId>
+    	<type>pom</type>
+    </dependency>
+    <dependency>
+    	<groupId>org.apache.activemq</groupId>
+    	<artifactId>activemq-spring</artifactId>
+    </dependency>
+    <dependency>
+    	<groupId>org.springframework</groupId>
+    	<artifactId>spring-jms</artifactId>
+    </dependency>
+     <dependency>
+        <groupId>io.goeasy</groupId>
+        <artifactId>goeasy-sdk</artifactId>
+        <version>0.3.8</version>
+    </dependency>
   </dependencies>
+  <repositories>
+  	<repository>
+  		  <id>goeasy</id>
+        <name>goeasy</name>
+        <url>http://maven.goeasy.io/content/repositories/releases/</url>
+  	</repository>
+  </repositories>
   <build>
     <finalName>proscenium</finalName>
   </build>

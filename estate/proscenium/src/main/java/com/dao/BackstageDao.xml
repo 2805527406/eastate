@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper SYSTEM "mybatis-3-mapper.dtd" >
+<mapper namespace='com.dao.BackstageDao'>
+	<resultMap type="management" id="managementMap">
+		<result column="mid" property="mid"/>
+		<result column="id" property="id"/>
+		<result column="parid" property="parid"/>
+		<result column="time" property="time"/>
+		<result column="statu" property="statu"/>
+		<collection property="managements" column="mid" select="com.dao.BackstageDao.findManage2" />
+
+	</resultMap>
+	
+	<select id="findManage" parameterType="integer" resultMap="managementMap">
+		select * from management where id=#{value}
+	</select>
+	
+	<update id="updateManage" parameterType="management">
+		update management set mname=#{mname},statu=#{statu} where mid=#{mid}
+	</update>
+	
+	
+	<update id="updateBulid" parameterType="buliding">
+		update buliding set buliname=#{buliname},statu=#{statu},jprice=${jprice},starttime=#{starttime},endtime=#{endtime} where bulid=#{bulid}
+	</update>
+	
+		<!-- 按揭利率添加 -->
+	<insert id="save" parameterType="rate">
+				insert into rate(nature,retname,rayear,ret,reyear2,ret2,retime,statu)
+				values(#{nature}, #{retname},#{rayear},#{ret},#{reyear2},#{ret2},now(),"y")
+		</insert>
+		<!-- 删除按揭利率 -->
+	<delete id="del" parameterType="rate">
+	delete from rate where raid=#{value}
+	</delete>
+	<!-- 单独查询按揭利率 -->	
+	<select id="loadrate" parameterType="integer" resultType="rate">
+		select * from rate where raid=#{value}
+	</select>
+	
+	<!-- 修改查询按揭利率 -->	
+	<update id="updaterate" parameterType="rate" >
+		update rate set nature=#{nature},retname=#{retname},rayear=#{rayear},ret=#{ret},
+		       reyear2=#{reyear2},ret2=#{ret2}, rayear=#{rayear}, retime=now(),statu="y"
+		       where raid=#{raid}
+	</update>
+	
+	<resultMap type="buliding" id="bulidingMap">
+		<result column="bulid" property="bulid"/>
+		<result column="hid" property="hid"/>
+		<result column="buliname" property="buliname"/>
+		<result column="reid" property="reid"/>
+		<result column="sid" property="sid"/>
+		<result column="manid" property="manid"/>
+		<result column="moid" property="moid"/>
+		<result column="fid" property="fid"/>
+		<result column="jprice" property="jprice"/>
+		<result column="starttime" property="starttime"/>
+		<result column="endtime" property="endtime"/>
+		<result column="addres" property="addres"/>
+		<result column="phone" property="phone"/>
+		<result column="viewimg" property="viewimg"/>
+		<result column="district" property="district"/>
+		<result column="developers" property="developers"/>
+		<result column="licence" property="licence"/>
+		<result column="jzarea" property="jzarea"/>
+		<result column="zdarea" property="zdarea"/>
+		<result column="volume" property="volume"/>
+		<result column="green" property="green"/>
+		<result column="company" property="company"/>
+		<result column="cost" property="cost"/>
+		<result column="garage" property="garage"/>
+		<result column="message" property="message"/>
+		<result column="information" property="information"/>
+		<result column="maid" property="maid"/>
+		<result column="statu" property="statu"/>
+		<collection property="homeimg" column="bulid" select="com.dao.BackstageDao.findimg" />
+	</resultMap>
+	<!-- 新盘列表添加的 加载 -->
+	<select id="loadbiu" parameterType="Integer" resultMap="bulidingMap">
+	    select * from buliding where bulid=#{value}
+	</select>
+	<!-- 新盘列表添加的 修改 -->
+	<update id="updatebiu" parameterType="buliding">
+	update buliding set buliname=#{buliname},reid=#{reid},regnid=#{regnid},sid=#{sid},manid=#{manid},moid=#{moid},fid=#{fid},jprice=#{jprice},
+					starttime=#{starttime},endtime=#{endtime},statu=#{statu},addres=#{addres},phone=#{phone},viewimg=#{viewimg},district=#{district},developers=#{developers},
+					licence=#{licence},jzarea=#{jzarea},zdarea=#{zdarea},volume=#{volume},green=#{green},company=#{company},cost=#{cost},garage=#{garage},message=#{message},information=#{information},maid=#{maid},hid=#{hid}
+					where bulid=#{bulid}
+	</update>
+</mapper>
