@@ -40,7 +40,7 @@ class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 </property>
 </bean>
 	<context:annotation-config></context:annotation-config>
-	<context:component-scan base-package="com.dao,com.service,com.util"></context:component-scan>
+	<context:component-scan base-package="com.dao,com.service"></context:component-scan>
 	<!-- *********************************activemq配置(生产者)********************************* -->
 <!-- 	<amq:connectionFactory id="amqConnectionFactory" brokerURL="tcp://10.0.13.78:61616" userName="admin" password="admin" trustAllPackages="true"></amq:connectionFactory> -->
 <!-- 	<bean id="connectionFactory" class="org.springframework.jms.connection.CachingConnectionFactory"> -->
@@ -63,9 +63,9 @@ class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
 	
 <!-- ********************dubbo通信配置*************** -->
-	<dubbo:application name="backstage"></dubbo:application>
-	<!-- registry:注册    应用:application protocol：协议，规则 -->
-	<dubbo:registry address="zookeeper://10.0.14.187:2181"></dubbo:registry>
-	<dubbo:protocol name="dubbo" port="30001"></dubbo:protocol>
-	<dubbo:service interface="org.api.ServiceAPI" ref="backstageservice" timeout="1200000"></dubbo:service>
+<!-- 	<dubbo:application name="backstage"></dubbo:application> -->
+<!-- 	 registry:注册    应用:application protocol：协议，规则 --> 
+<!-- 	<dubbo:registry address="zookeeper://10.0.13.123:2181"></dubbo:registry> -->
+<!-- 	<dubbo:protocol name="dubbo" port="30001"></dubbo:protocol> -->
+<!-- 	<dubbo:service interface="org.api.ServiceAPI" ref="backstageservice" timeout="1200000"></dubbo:service> -->
 </beans>

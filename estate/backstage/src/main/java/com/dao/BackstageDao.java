@@ -13,6 +13,7 @@ import org.pojo.Home;
 import org.pojo.Homeimg;
 import org.pojo.Management;
 import org.pojo.Rate;
+import org.pojo.Users;
 
 public interface BackstageDao {
 	//查询区域管理
@@ -110,4 +111,15 @@ public interface BackstageDao {
 //*****************************************************************
 		@Insert("insert into homeimg(hsrc,mid,bulid) values(#{hsrc},#{mid},#{bulid})")
 		public void addImg(Homeimg img);
+		
+/////////////////////////////////////////////////////////////////////
+//用户登录
+@Select("select * from users where username=#{username} and password=#{password}")
+public Users findallu(Users usrs);
+//用户注册查询
+@Select("select * from users where username=#{username}")
+public Users findzc(Users usrs);
+//注册用户
+@Insert("insert into users (username,password,sex,phone,email,tximg,statu) values(#{username},#{password},null,null,#{email},null,'y')")
+public void adduser(Users usrs);
 }

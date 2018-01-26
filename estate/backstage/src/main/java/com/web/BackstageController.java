@@ -19,11 +19,13 @@ import org.pojo.Buliding;
 import org.pojo.Homeimg;
 import org.pojo.Management;
 import org.pojo.Rate;
+import org.pojo.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jms.core.JmsTemplate;
 import org.springframework.jms.core.MessageCreator;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -34,8 +36,6 @@ import com.sun.org.apache.xpath.internal.functions.Function;
 import com.util.Base;
 import com.util.Picture;
 import com.util.Topic;
-
-import io.goeasy.GoEasy;
 
 @Controller
 public class BackstageController {
@@ -473,10 +473,54 @@ public class BackstageController {
 				@ResponseBody
 				public String dd(Integer bulid){
 					Buliding b=bss.loadbiu(bulid);
-					String str="刚刚发布了房源。<a href='single.html?bulid="+b.getBulid()+"'>前去看看</a>";
-					GoEasy goEasy=new GoEasy("rest-hangzhou.goeasy.io","BC-24fec6cc38d0427a9fe0aaa0e9872387");
-					goEasy.publish("message",str);
+					
 					return "ok";
 				}
+				
+				//用户
+				@RequestMapping(value="/findallu",method={RequestMethod.POST})
+				@ResponseBody
+				public Object findallu(@RequestParam(name="username") String username,
+						@RequestParam(name="password") String password
+						){
+					System.out.println("username======"+username+"password:"+password);
+				    Users users =new Users();
+				    users.setUsername(username);
+				    users.setPassword(password);
+				    //	return bss.findallu();
+				//	Users userl=bss.findallu(users);
+				//	System.out.println("我等到的值："+userl);
+					Map<Object,Object> map=new HashMap<Object, Object>();
+					//bss.findallu(username, password);
+					Users u=bss.findallu(users);
+					if(u==null){
+						map.put("e", "ee");
+					}else{
+						map.put("e", bss.findallu(users));
+					}
+					
+					
+					
+					return map;
+				}		
+		
+				
+				
+				
+				@RequestMapping(value="/zcpd",method={RequestMethod.POST})
+				@ResponseBody//@RequestParam(name="zcusername") String zcusername
+				public Object zcpd(Users users){
+				    System.out.println("我输出对象："+users);
+					Map<Object,Object> map=new HashMap<Object, Object>();
+					Users u=bss.findzc(users);
+					 System.out.println("我输出对象yyyy："+bss.findzc(users));
+					if(u==null){
+						bss.adduser(users);
+						map.put("e", "addok");
+					}else{
+						map.put("e", "no");
+					}
+					return map;
+				}	
 		
 }

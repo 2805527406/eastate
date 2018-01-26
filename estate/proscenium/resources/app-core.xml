@@ -39,7 +39,7 @@ class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
 
 <dubbo:application name="proscenium"></dubbo:application>
 	<!-- registry:注册    应用:application protocol：协议，规则 -->
-	<dubbo:registry address="zookeeper://10.0.14.187:2181"></dubbo:registry>
+	<dubbo:registry address="zookeeper://10.0.13.123:2181"></dubbo:registry>
 	<dubbo:reference interface="org.api.ServiceAPI" id="api"></dubbo:reference>
 
 

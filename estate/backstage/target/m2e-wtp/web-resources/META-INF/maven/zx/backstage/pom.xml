@@ -93,20 +93,10 @@
     	<groupId>org.apache.activemq</groupId>
     	<artifactId>activemq-spring</artifactId>
     </dependency>
-     <dependency>
-        <groupId>io.goeasy</groupId>
-        <artifactId>goeasy-sdk</artifactId>
-        <version>0.3.8</version>
-    </dependency>
+    	
   </dependencies>
-  <repositories>
-  	<repository>
-  		  <id>goeasy</id>
-        <name>goeasy</name>
-        <url>http://maven.goeasy.io/content/repositories/releases/</url>
-  	</repository>
-  </repositories>
-  <build>
+
+  <build> 
     <finalName>backstage</finalName>
   </build>
  

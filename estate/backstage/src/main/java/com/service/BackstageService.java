@@ -9,6 +9,7 @@ import org.pojo.Home;
 import org.pojo.Homeimg;
 import org.pojo.Management;
 import org.pojo.Rate;
+import org.pojo.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -136,5 +137,20 @@ public class BackstageService implements ServiceAPI{
 			public void addImg(Homeimg img){
 				bsd.addImg(img);
 			}
+//////////////////////////////////////////////////////////////
+//用户登录
+public Users findallu(Users u){
+return bsd.findallu(u);
+}
+//用户注册查询
+public Users findzc(Users u){
+return bsd.findzc(u);
+}
+
+//用户注册查询
+public void adduser(Users u){
+bsd.adduser(u);
+}
+
 
 }

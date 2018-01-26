@@ -19,49 +19,7 @@
 <script type="text/javascript" src="js/move-top.js"></script>
 <script type="text/javascript" src="js/easing.js"></script>
 <script type="text/javascript" src="https://cdn.goeasy.io/goeasy.js"></script>
-<script>
-$(function(){
-	scrollImg();
-	var goeasy = new GoEasy({
-	    appkey: 'BS-e74c1578101a4aeb9e80da210bd61bf0'});
-	goeasy.subscribe({
-	  channel: 'message',
-	onMessage: function (result) {
-		var display=$("#d1")
-		display.html("");
-		display.html(result.content);
-			setTimeout(function(){
-				$("#d1").get(0).style.display="block";
-			},7000);
-			setTimeout(function(){
-				$("#d1").get(0).style.display="none";
-			},12000);
-	}
-	});
-	
-})
-function scrollImg(){
-    var posX,posY;
-    if (window.innerHeight) {
-        posX = window.pageXOffset;
-        posY = window.pageYOffset;
-    }
-    else if (document.documentElement && document.documentElement.scrollTop) {
-        posX = document.documentElement.scrollLeft;
-        posY = document.documentElement.scrollTop;
-    }
-    else if (document.body) {
-        posX = document.body.scrollLeft;
-        posY = document.body.scrollTop;
-    }
-  
-    var ad=document.getElementById("d1");
-    ad.style.top=posY+"px";
-    ad.style.left=(posX+50)+"px";
-    setTimeout("scrollImg()",100);
-}
 
-</script>
 	<script type="text/javascript">
 			jQuery(document).ready(function($) {
 				$(".scroll").click(function(event){		
@@ -309,5 +267,47 @@ app.controller("oneController",function($scope,Service){
 		}
 
 	})
+</script>
+<script>
+$(function(){
+	scrollImg();
+	var goeasy = new GoEasy({
+	    appkey: 'BS-e74c1578101a4aeb9e80da210bd61bf0'});
+	goeasy.subscribe({
+	  channel: 'message',
+	onMessage: function (result) {
+		var display=$("#d1")
+		display.html("");
+		display.html(result.content);
+			setTimeout(function(){
+				$("#d1").get(0).style.display="block";
+			},7000);
+			setTimeout(function(){
+				$("#d1").get(0).style.display="none";
+			},12000);
+	}
+	});
+	
+})
+function scrollImg(){
+    var posX,posY;
+    if (window.innerHeight) {
+        posX = window.pageXOffset;
+        posY = window.pageYOffset;
+    }
+    else if (document.documentElement && document.documentElement.scrollTop) {
+        posX = document.documentElement.scrollLeft;
+        posY = document.documentElement.scrollTop;
+    }
+    else if (document.body) {
+        posX = document.body.scrollLeft;
+        posY = document.body.scrollTop;
+    }
+  
+    var ad=document.getElementById("d1");
+    ad.style.top=posY+"px";
+    ad.style.left=(posX+50)+"px";
+    setTimeout("scrollImg()",100);
+}
 </script>
 </html>

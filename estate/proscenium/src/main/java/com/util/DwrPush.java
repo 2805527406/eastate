@@ -11,8 +11,6 @@ import org.directwebremoting.WebContext;
 import org.directwebremoting.WebContextFactory;
 import org.directwebremoting.proxy.dwr.Util;
 
-import io.goeasy.GoEasy;
-
 @SuppressWarnings("deprecation")
 public class DwrPush implements MessageListener{
 

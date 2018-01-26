@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8" />
+		<title></title>
+		<script src="/backstage/assets/js/jquery-2.0.3.min.js"></script>
+		  
+        <script type="text/javascript" src="/backstage/assets/js/index.js"></script>
+		<script>
+			$(document).ready(function() {
+				
+				$(".form").slideDown(500);
+				
+				$("#landing").addClass("border-btn");
+
+				$("#registered").click(function() {
+					$("#landing").removeClass("border-btn");
+					$("#landing-content").hide(500);
+					$(this).addClass("border-btn");
+					$("#registered-content").show(500);
+					
+				})
+
+				$("#landing").click(function() {
+					$("#registered").removeClass("border-btn");
+					$(this).addClass("border-btn");
+					
+					$("#landing-content").show(500);
+					$("#registered-content").hide(500);
+				})
+			});
+		</script>
+		<style>
+			* {
+				margin: 0;
+				padding: 0;
+				font-family: "微软雅黑";
+			}
+			
+			body {
+				background: #F7F7F7;
+			}
+			
+			.form {
+				position: absolute;
+				top: 50%;
+				left: 50%;
+				margin-left: -185px;
+				margin-top: -210px;
+				height: 420px;
+				width: 340px;
+				font-size: 18px;
+				-webkit-box-shadow: 0px 0px 10px #A6A6A6;
+				background: #fff;
+			}
+			
+			.border-btn {
+				border-bottom: 1px solid #ccc;
+			}
+			
+			#landing,
+			#registered {
+				float: left;
+				text-align: center;
+				width: 170px;
+				padding: 15px 0;
+				color: #545454;
+			}
+			
+			#landing-content {
+				clear: both;
+			}
+			
+			.inp {
+				height: 30px;
+				margin: 0 auto;
+				margin-bottom: 30px;
+				width: 200px;
+			}
+			
+			.inp>input {
+				text-align: center;
+				height: 30px;
+				width: 200px;
+				margin: 0 auto;
+				transition: all 0.3s ease-in-out;
+			}
+			
+			.login {
+				border: 1px solid #A6A6A6;
+				color: #a6a6a6;
+				height: 30px;
+				width: 202px;
+				text-align: center;
+				font-size: 13.333333px;
+				margin-left: 70px;
+				line-height: 30px;
+				margin-top: 30px;
+				transition: all 0.3s ease-in-out;
+			}
+			
+			.login:hover {
+				background: #A6A6A6;
+				color: #fff;
+			}
+			
+			#bottom {
+				margin-top: 30px;
+				font-size: 13.333333px;
+				color: #a6a6a6;
+			}
+			
+			#registeredtxt {
+				float: left;
+				margin-left: 80px;
+			}
+			
+			#forgotpassword {
+				float: right;
+				margin-right: 80px;
+			}
+			
+			#photo {
+				border-radius: 80px;
+				border: 1px solid #ccc;
+				height: 80px;
+				width: 80px;
+				margin: 0 auto;
+				overflow: hidden;
+				clear: both;
+				margin-top: 30px;
+				margin-bottom: 30px;
+			}
+			
+			#photo>img:hover {
+				-webkit-transform: rotateZ(360deg);
+				-moz-transform: rotateZ(360deg);
+				-o-transform: rotateZ(360deg);
+				-ms-transform: rotateZ(360deg);
+				transform: rotateZ(360deg);
+			}
+			
+			#photo>img {
+				height: 80px;
+				width: 80px;
+				-webkit-background-size: 220px 220px;
+				border-radius: 60px;
+				-webkit-transition: -webkit-transform 1s linear;
+				-moz-transition: -moz-transform 1s linear;
+				-o-transition: -o-transform 1s linear;
+				-ms-transition: -ms-transform 1s linear;
+			}
+			
+			
+			#registered-content {
+				margin-top: 40px;
+				display: none;
+			}
+			
+			.fix {
+				clear: both;
+			}
+			.form{
+				display: none;
+			}
+		</style>
+		<script type="text/javascript">
+function loginu(){
+	   var username=$('#username').val();
+	   var password=$('#password').val();
+	   if(username!= '' && password!= ''){
+		    $.ajax({
+		 	   type:"POST",
+		 	   url:"/backstage/findallu.sw",
+		 	   data:{
+		 		   "username":$("#username").val(),
+		 		   "password":$("#password").val()
+		 	   },		
+		 	    success:function(data){
+		 	    	console.log(data);
+		 	    	if(data.e!="ee"){
+		 	  				qk();
+		 	    		window.location.href="/backstage/index2.html"
+		 	    	}else{
+		 	    		alert("账号密码错误");
+		 	    		qk();
+		 	        }
+		 	    }
+		 	});
+	   }else{
+		   alert("账号或密码不能为空");
+	   }		 
+}
+
+	function qk(){//清空表单
+		$("#username").val("");
+		$("#password").val("");
+		$("#zcusername").val("");
+		$("#zcpassword").val("");
+		$("#zzcpassword").val("");
+		$("#zcemail").val("");
+	}
+
+	function qkzh(){//清空表单
+		$("#zcusername").val("");
+		
+	}
+
+	function qkmm(){//清空表单
+		$("#zcpassword").val("");
+		$("#zzcpassword").val("");		
+	}
+	
+	function qkzhts(){//清空表单
+		$("#zh").html("");
+			
+	}
+	function qkmmts(){//清空表单
+		$("#qrmm").html("");		
+	}
+	function qkyx(){//清空邮箱提示
+		$("#yx").html("");		
+	}
+	
+	$(function(){
+		createCode();
+	}); 
+	$(function(){
+		
+		$("#zce").get(0).onclick=function(){
+		//	 alert("注册弹框");
+			  var zcusername=$("#zcusername").val();
+			  var zcpassword=$("#zcpassword").val();
+			  var zzcpassword=$("#zzcpassword").val();
+			  var zcemail=$("#zcemail").val();
+			  
+			  var reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+			  if(zcpassword!=zzcpassword){
+				  $("#qrmm").html("两次密码不一致！");
+				  qkmm();
+				  qkzhts();
+				//  $("#yx").html("邮箱格式不正确！");
+				//   qkyx();
+			  }else if(!reg.test(zcemail)){
+				  $("#yx").html("邮箱格式不正确！");
+				  //qkyx();
+			  }else{
+			  $.ajax({
+				  type:"POST",
+			 	   url:"/backstage/zcpd.sw",
+			 	   data:{
+			 		   "username":$("#zcusername").val(),
+			 		   "password":$("#zcpassword").val(),
+			 		   "email":$("#zcemail").val()	 		   
+			  },
+			  success:function(data){
+			    	console.log(data);
+			    	if(data.e!="no"){//提示注册成功
+			    		qk();
+			    		window.location.href="/backstage/login3.html"
+			    	}else{//提示账号存在
+			    		//document.getElementById("zh").innerHTML="账号已经存在！";
+			    		$("#zh").html("账号已经存在！");
+			    		qkzh();
+			    		qkmmts();
+			    	}
+			    }
+			  
+			   });
+			  }
+		}
+	});
+	// $.("#zcusername").blur(alert("你失去了焦点")); 
+	
+  /* function zcu(){
+	  alert("注册弹框");
+	  var zcusername=$("#zcusername").val();
+	  var zcpassword=$("#zcpassword").val();
+	  var zzcpassword=$("#zzcpassword").val();
+	  var zcemail=$("#zcemail").val();
+	  var reg = /^([a-zA-Z0-9_\.\-])+\@(([a-zA-Z0-9\-])+\.)+([a-zA-Z0-9]{2,4})+$/;
+	  if(!reg.test(zcemail)){
+		  $("#yx").html("邮箱格式不正确！");
+		  qkyx();
+	  }else if(zcpassword!=zzcpassword){
+		  $("#qrmm").html("两次密码不一致！");
+		  qkmm();
+		  qkzhts();
+	  }else{
+	  $.ajax({
+		  type:"POST",
+	 	   url:"/backstage/zcpd.sw",
+	 	   data:{
+	 		   "username":$("#zcusername").val(),
+	 		   "password":$("#zcpassword").val(),
+	 		   "email":$("#zcemail").val()	 		   
+	  },
+	  success:function(data){
+	    	console.log(data);
+	    	if(data.e!="no"){//提示注册成功
+	    		qk();
+	    		window.location.href="/backstage/login2.html"
+	    	}else{//提示账号存在
+	    		//document.getElementById("zh").innerHTML="账号已经存在！";
+	    		$("#zh").html("账号已经存在！");
+	    		qkzh();
+	    		qkmmts();
+	    	}
+	    }
+	  
+	   });
+	  }
+  } */
+  
+
+</script>
+	</head>
+
+	<body>
+		<div class="form">
+			<div id="landing">登录</div>
+			<div id="registered">注册</div>
+			<div class="fix"></div>
+			<div id="landing-content">
+				<br>
+				<div class="inp"><input type="text" id="username" name="username" placeholder="请输入用户名" /></div>
+				<div class="inp"><input type="password" id="password" name="password" placeholder="密码" /></div>
+				<div class="inp">
+				<input type="text" id="J_codetext" placeholder="请输入验证码" maxlength="4">			
+			   </div>	
+				<div class="login" onclick="loginu()">登录</div>
+				<div style="width:10px;height:10px" id="registeredtxt">
+					<canvas class="J_codeimg" id="myCanvas" onclick="createCode()">
+					Your browser does not support the canvas element.
+				</canvas>
+				</div>
+			</div>
+			<div id="registered-content">
+				<div class="inp"><input type="text" id="zcusername" placeholder="请输入用户名" /><span id="zh" style="color:red;"></span></div>
+				<div class="inp"><input type="password"id="zcpassword" placeholder="请输入密码" /></div>
+				<div class="inp"><input type="password" id="zzcpassword" placeholder="请再次输入密码" /><span id="qrmm" style="color:red;"></span></div>
+				<div class="inp"><input type="text" id="zcemail" placeholder="电子邮箱" /><span id="yx" style="color:red;"></span></div>
+				<div class="login" id="zce" onclick="zcu()">立即注册</div>
+			</div>
+		</div>
+		<div style="text-align:center;"></div>
+
+
+	</body>
+
+</html>
